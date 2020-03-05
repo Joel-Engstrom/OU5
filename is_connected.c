@@ -61,6 +61,7 @@ void* substring(char line[BUFSIZE])
     {
         city[i] = line[i];
     }
+    city[3]= '\0';
     return city;
 }
 
