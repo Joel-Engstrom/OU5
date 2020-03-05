@@ -57,7 +57,7 @@ bool line_is_comment(const char *s)
 char *substring(const char *original)
 {
     char *city;
-    int c;
+    int position = 1, length = 3, c;
     // 4 eftersom \0 också behövs på slutet
     city = malloc(4);
     // Kontrollera så att det finns minne
@@ -67,15 +67,11 @@ char *substring(const char *original)
         exit(1);
     }
     // Körs 3 gånger för att ta dem tre första bokstäverna
-    for (c = 1 ; c < 4 ; c++)
-    {
-        *(city+c) = *(original+c-1);      
-        city++;
-        original++;
+    while (c < length) {
+        city[c] = original[position+c-1];
+        c++;
     }
-    // Lägger till EOL på slutet av strängen
-    *(city+c) = '\0';
-    printf("%s\n", city);
+    city[c] = '\0';
     return city;
 }
 
@@ -112,7 +108,7 @@ int main(int argc, const char **argv)
         }
         char *city = substring(line);
         // Skriver bara ut staden
-        //printf("%s\n", city);
+        printf("%s\n", city);
     }
 
 
