@@ -67,14 +67,13 @@ char *substring(const char *original)
         exit(1);
     }
     // Körs 3 gånger för att ta dem tre första bokstäverna
-    for (c = 0 ; c < 3 ; c++)
+    for (c = 1 ; c < 3 ; c++)
     {
-        *(city+c) = *(original-1);      
+        *(city+c) = *(original);      
         city++;
     }
     // Lägger till EOL på slutet av strängen
     *(city+c) = '\0';
- 
     return city;
 }
 
@@ -113,7 +112,7 @@ int main(int argc, const char **argv)
         // printf("%s", line);
         char *city = substring(line);
         // Skriver bara ut första staden
-        printf("%s", city);
+        printf("%s\n", city);
     }
 
 
