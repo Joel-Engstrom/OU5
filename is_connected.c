@@ -59,7 +59,7 @@ char *substring(const char *original)
     char *city;
     int c;
     // 4 eftersom \0 också behövs på slutet
-    city = malloc(25);
+    city = malloc(4);
     // Kontrollera så att det finns minne
     if (city == NULL)
     {
@@ -70,10 +70,12 @@ char *substring(const char *original)
     for (c = 1 ; c < 4 ; c++)
     {
         *(city+c) = *(original+c-1);      
+        city++;
         original++;
     }
     // Lägger till EOL på slutet av strängen
     *(city+c) = '\0';
+    printf("%s\n", city);
     return city;
 }
 
@@ -110,7 +112,7 @@ int main(int argc, const char **argv)
         }
         char *city = substring(line);
         // Skriver bara ut staden
-        printf("%s\n", city);
+        //printf("%s\n", city);
     }
 
 
