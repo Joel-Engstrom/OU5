@@ -88,10 +88,12 @@ int main(int argc, const char **argv)
     while (fgets(line, BUFSIZE, in) != NULL) {
         if (line_is_blank(line) || line_is_comment(line)) {
             // Ignore blank lines and comment lines.
-            char city[4] = substring(line);
             continue;
+
         }
         printf("%s", line);
+        char city[4] = substring(line);
+
 
     }
 
