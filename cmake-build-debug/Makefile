@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/edvin/Desktop/clion-2019.2.3/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/edvin/Desktop/clion/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/edvin/Desktop/clion-2019.2.3/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/edvin/Desktop/clion/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/edvin/CLionProjects/OU5
+CMAKE_SOURCE_DIR = /home/edvin/Documents/GitHub/OU5
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/edvin/CLionProjects/OU5/cmake-build-debug
+CMAKE_BINARY_DIR = /home/edvin/Documents/GitHub/OU5/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/edvin/CLionProjects/OU5/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/edvin/Desktop/clion-2019.2.3/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/edvin/Desktop/clion/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/edvin/Desktop/clion-2019.2.3/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/edvin/Desktop/clion/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/edvin/CLionProjects/OU5/cmake-build-debug/CMakeFiles /home/edvin/CLionProjects/OU5/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/edvin/Documents/GitHub/OU5/cmake-build-debug/CMakeFiles /home/edvin/Documents/GitHub/OU5/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/edvin/CLionProjects/OU5/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/edvin/Documents/GitHub/OU5/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,32 +123,32 @@ OU5/fast:
 	$(MAKE) -f CMakeFiles/OU5.dir/build.make CMakeFiles/OU5.dir/build
 .PHONY : OU5/fast
 
-is_conected.o: is_conected.c.o
+is_connected.o: is_connected.c.o
 
-.PHONY : is_conected.o
+.PHONY : is_connected.o
 
 # target to build an object file
-is_conected.c.o:
-	$(MAKE) -f CMakeFiles/OU5.dir/build.make CMakeFiles/OU5.dir/is_conected.c.o
-.PHONY : is_conected.c.o
+is_connected.c.o:
+	$(MAKE) -f CMakeFiles/OU5.dir/build.make CMakeFiles/OU5.dir/is_connected.c.o
+.PHONY : is_connected.c.o
 
-is_conected.i: is_conected.c.i
+is_connected.i: is_connected.c.i
 
-.PHONY : is_conected.i
+.PHONY : is_connected.i
 
 # target to preprocess a source file
-is_conected.c.i:
-	$(MAKE) -f CMakeFiles/OU5.dir/build.make CMakeFiles/OU5.dir/is_conected.c.i
-.PHONY : is_conected.c.i
+is_connected.c.i:
+	$(MAKE) -f CMakeFiles/OU5.dir/build.make CMakeFiles/OU5.dir/is_connected.c.i
+.PHONY : is_connected.c.i
 
-is_conected.s: is_conected.c.s
+is_connected.s: is_connected.c.s
 
-.PHONY : is_conected.s
+.PHONY : is_connected.s
 
 # target to generate assembly for a file
-is_conected.c.s:
-	$(MAKE) -f CMakeFiles/OU5.dir/build.make CMakeFiles/OU5.dir/is_conected.c.s
-.PHONY : is_conected.c.s
+is_connected.c.s:
+	$(MAKE) -f CMakeFiles/OU5.dir/build.make CMakeFiles/OU5.dir/is_connected.c.s
+.PHONY : is_connected.c.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... OU5"
 	@echo "... edit_cache"
-	@echo "... is_conected.o"
-	@echo "... is_conected.i"
-	@echo "... is_conected.s"
+	@echo "... is_connected.o"
+	@echo "... is_connected.i"
+	@echo "... is_connected.s"
 .PHONY : help
 
 

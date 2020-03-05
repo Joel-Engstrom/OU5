@@ -1,4 +1,4 @@
-/home/edvin/Desktop/clion-2019.2.3/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -G "CodeBlocks - Unix Makefiles" /home/edvin/CLionProjects/OU5
+/home/edvin/Desktop/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -G "CodeBlocks - Unix Makefiles" /home/edvin/Documents/GitHub/OU5
 -- The C compiler identification is GNU 7.4.0
 -- Check for working C compiler: /usr/bin/gcc
 -- Check for working C compiler: /usr/bin/gcc -- works
@@ -8,4 +8,4 @@
 -- Detecting C compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/edvin/CLionProjects/OU5/cmake-build-debug
+-- Build files have been written to: /home/edvin/Documents/GitHub/OU5/cmake-build-debug

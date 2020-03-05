@@ -1,1 +1,1 @@
-/usr/bin/gcc -g   CMakeFiles/OU5.dir/is_conected.c.o  -o OU5 
+/usr/bin/gcc -g   CMakeFiles/OU5.dir/is_connected.c.o  -o OU5 

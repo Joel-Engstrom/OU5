@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/OU5.dir/is_conected.c.o"
+  "CMakeFiles/OU5.dir/is_connected.c.o"
   "OU5"
   "OU5.pdb"
 )

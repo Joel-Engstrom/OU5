@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/edvin/CLionProjects/OU5/is_conected.c" "/home/edvin/CLionProjects/OU5/cmake-build-debug/CMakeFiles/OU5.dir/is_conected.c.o"
+  "/home/edvin/Documents/GitHub/OU5/is_connected.c" "/home/edvin/Documents/GitHub/OU5/cmake-build-debug/CMakeFiles/OU5.dir/is_connected.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
