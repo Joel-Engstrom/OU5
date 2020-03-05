@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-struct edge
+struct Edge
 {
     /* data */
 };
