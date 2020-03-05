@@ -51,8 +51,16 @@ bool line_is_comment(const char *s)
     int i = first_non_white_space(s);
     return (i >= 0 && s[i] == '#');
 }
-
 #define BUFSIZE 300
+
+void* substring(char line[BUFSIZE])
+{
+    char city[4];
+    /* magi */
+    return city;
+}
+
+
 int main(int argc, const char **argv)
 {
     FILE *in;
@@ -74,6 +82,7 @@ int main(int argc, const char **argv)
     while (fgets(line, BUFSIZE, in) != NULL) {
         if (line_is_blank(line) || line_is_comment(line)) {
             // Ignore blank lines and comment lines.
+            char city[4] = substring(line);
             continue;
         }
         printf("%s", line);
