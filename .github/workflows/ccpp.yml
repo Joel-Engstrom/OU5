@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Dependencies
-      run: apt-get install gcc
+      run: sudo apt-get install gcc
     - name: compile
       run: gcc is_connected.c -o is_connected
     - name: start
