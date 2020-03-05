@@ -18,4 +18,4 @@ jobs:
     - name: compile
       run: gcc is_connected.c -o is_connected
     - name: start
-      run: .\is_connected airmap1.map
+      run: ./is_connected airmap1.map
