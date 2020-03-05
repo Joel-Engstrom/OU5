@@ -59,7 +59,7 @@ char *substring(const char *original)
     char *city;
     int c;
     // 4 eftersom \0 också behövs på slutet
-    city = malloc(4);
+    city = malloc(25);
     // Kontrollera så att det finns minne
     if (city == NULL)
     {
@@ -67,10 +67,10 @@ char *substring(const char *original)
         exit(1);
     }
     // Körs 3 gånger för att ta dem tre första bokstäverna
-    for (c = 1 ; c < 3 ; c++)
+    for (c = 1 ; c < 4 ; c++)
     {
-        *(city+c) = *(original);      
-        city++;
+        *(city+c) = *(original+c-1);      
+        original++;
     }
     // Lägger till EOL på slutet av strängen
     *(city+c) = '\0';
@@ -108,10 +108,8 @@ int main(int argc, const char **argv)
             continue;
 
         }
-        // Skriver ut hela linjen
-        // printf("%s", line);
         char *city = substring(line);
-        // Skriver bara ut första staden
+        // Skriver bara ut staden
         printf("%s\n", city);
     }
 
