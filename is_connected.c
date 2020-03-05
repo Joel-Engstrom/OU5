@@ -57,6 +57,10 @@ void* substring(char line[BUFSIZE])
 {
     char city[4];
     /* magi */
+    for (int i = 0; i < 3; i++)
+    {
+        city[i] = line[i];
+    }
     return city;
 }
 
