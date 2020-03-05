@@ -1,6 +1,3 @@
-#ifndef __GRAPH_H
-#define __GRAPH_H
-
 #include <stdbool.h>
 #include "util.h"
 #include "dlist.h"

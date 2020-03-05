@@ -70,6 +70,12 @@ int main(int argc, const char **argv)
         fprintf(stderr, "Failed to open %s for reading: %s\n", map, strerror(errno));
         return -1;
     }
+
+    //Count number of cities
+    //Create graph with number of cities size
+    //Add neighbours to graph
+    //Ask user input
+
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
         if (line_is_blank(line) || line_is_comment(line)) {
@@ -83,7 +89,7 @@ int main(int argc, const char **argv)
 
     //Try to close input file
     if (fclose(in)){
-        fprintf(stderr, "Failed to vlose %s: %s", map, strerror(errno));
+        fprintf(stderr, "Failed to close %s: %s", map, strerror(errno));
         return -1;
     }
     return 0;

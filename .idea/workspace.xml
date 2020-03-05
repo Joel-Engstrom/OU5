@@ -24,6 +24,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1YiLsuSKT9YN0hFv1hJRkqf1KdZ" />
   <component name="PropertiesComponent">
@@ -59,6 +60,7 @@
       <option name="presentableId" value="Default" />
       <updated>1583420678227</updated>
       <workItem from="1583420683004" duration="701000" />
+      <workItem from="1583421587104" duration="1681000" />
     </task>
     <servers />
   </component>
@@ -70,7 +72,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
