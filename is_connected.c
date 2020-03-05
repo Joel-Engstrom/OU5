@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <stdbool.h>
@@ -53,14 +54,27 @@ bool line_is_comment(const char *s)
 }
 #define BUFSIZE 300
 
-void* substring(char line[BUFSIZE])
+char *substring(const char *original)
 {
-    char city[4];
-    /* magi */
-    for (int i = 0; i < 3; i++)
+    char *city;
+    int c;
+    // 4 eftersom \0 också behövs på slutet
+    city = malloc(4);
+    // Kontrollera så att det finns minne
+    if (city == NULL)
     {
-        city[i] = line[i];
+        printf("Unable to allocate memory.\n");
+        exit(1);
     }
+    // Körs 3 gånger för att ta dem tre första bokstäverna
+    for (c = 0 ; c < 3 ; c++)
+    {
+        *(city+c) = *(original-1);      
+        city++;
+    }
+    // Lägger till EOL på slutet av strängen
+    *(city+c) = '\0';
+ 
     return city;
 }
 
@@ -95,10 +109,11 @@ int main(int argc, const char **argv)
             continue;
 
         }
-        printf("%s", line);
-        char city[4] = substring(line);
-
-
+        // Skriver ut hela linjen
+        // printf("%s", line);
+        char *city = substring(line);
+        // Skriver bara ut första staden
+        printf("%s", city);
     }
 
 
