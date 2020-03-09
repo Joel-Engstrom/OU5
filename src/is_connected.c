@@ -124,10 +124,8 @@ int unique_cities(FILE *in, list *l){
 
 void add_neighbours(FILE *in, graph *g){
     char line[BUFSIZE];
-    
     // Gets the full column of cities
     while (fgets(line, BUFSIZE, in) != NULL) {
-        printf("%s", "Jag blir kallad!\n");
         if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
             // Ignore blank lines and comment lines.
             continue;
@@ -139,7 +137,6 @@ void add_neighbours(FILE *in, graph *g){
         
         if (startNode != NULL && destNode != NULL)
         {
-            
             graph_insert_edge(g, startNode, destNode);
         }
     }
@@ -149,7 +146,6 @@ void add_neighbours(FILE *in, graph *g){
 void add_nodes(list *cities, graph *g){
     list_pos q = list_first(cities);
     while (q != list_end(cities)){
-        // printf("%s\n", (char*)list_inspect(cities, q));
         graph_insert_node(g, (char*)list_inspect(cities, q));
         q = list_next(cities, q);
     }
@@ -176,21 +172,23 @@ int main(int argc, const char **argv)
     // Gets the amount of unique cities
     list *cities = list_empty(NULL);
     int numberOfCities = unique_cities(in, cities);
+    fclose(in);
     
     // Create a graph based on the amount of unique cities
     graph *g = graph_empty(numberOfCities);
 
-    // Add neighbours to all nodes
-    add_neighbours(in, g);
-
-    // Insert nodes into the graph
+    // Add nodes to all nodes
+    in = fopen(map, "r");
     add_nodes(cities, g);
+
+    // Insert neighbours into the graph
+    add_neighbours(in, g);
     printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
     printf("Does any neighbours exist: %s\n", graph_has_edges(g) ? "true" : "false");
 
     //Count number of cities - Klar
     //Create graph with number of cities size - Klar
-    //Add neighbours to graph - Inte klar
+    //Add neighbours to graph - KLAAAAAR
     //Ask user input - Inte klar
 
     //Try to close input file
