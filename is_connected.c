@@ -104,7 +104,6 @@ int main(int argc, const char **argv)
         if (line_is_blank(line) || line_is_comment(line)) {
             // Ignore blank lines and comment lines.
             continue;
-
         }
         char *city = substring(line);
         // Skriver bara ut staden
