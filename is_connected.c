@@ -118,9 +118,14 @@ int main(int argc, const char **argv)
         if(list_is_empty(l)){
             list_insert(l, city, list_end(l));
             printf("la in: %s\n", city);
+            continue;
         }
         while (p != list_end(l)){
-            if(city == list_inspect(l, p)){
+            printf("%s \n", city);
+            printf("%s\n", list_inspect(l, p));
+            char *inspected_value = list_inspect(l, p);
+
+            if(strcmp(city, inspected_value)){
                 duplicate = true;
             }
             p = list_next(l, p);
