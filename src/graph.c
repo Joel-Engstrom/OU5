@@ -14,7 +14,7 @@ struct graph
 
 struct node
 {
-    char *name;
+    const char *name;
     list *neighbours;
 };
 
@@ -52,7 +52,9 @@ graph *graph_empty(int max_nodes){
  *
  * Returns: True if graph is empty, otherwise false.
  */
-bool graph_is_empty(const graph *g);
+bool graph_is_empty(const graph *g){
+    return g->freeIndex==0;
+}
 
 /**
  * graph_has_edges() - Check if a graph has any edges.
