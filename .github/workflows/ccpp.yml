@@ -16,6 +16,6 @@ jobs:
     - name: Install Dependencies
       run: sudo apt-get install gcc
     - name: compile
-      run: gcc -I include ./src/graph.c ./src/array_1d.c ./src/dlist.c ./src/is_connected.c -o ./bin/compiled
+      run: gcc -I include ./src/graph.c ./src/array_1d.c ./src/list.c ./src/dlist.c ./src/is_connected.c -o ./bin/compiled
     - name: start
       run: ./bin/compiled airmap1.map
