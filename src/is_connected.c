@@ -6,6 +6,7 @@
 #include <ctype.h>
 
 #include "list.h"
+#include "graph.h"
 #define BUFSIZE 300
 
 /* Return position of first non-whitespace character or -1 if only
@@ -134,11 +135,14 @@ int main(int argc, const char **argv)
         }
     }
     list_pos q = list_first(l);
+    graph *g = graph_empty(numCities);
     while (q != list_end(l)){
         printf("%s\n", (char*)list_inspect(l, q));
+        graph_insert_node(g, (char*)list_inspect(l, q));
         q = list_next(l, q);
     }
     printf("%d\n", numCities);
+    printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
 
     //Count number of cities - Klar
     //Create graph with number of cities size
