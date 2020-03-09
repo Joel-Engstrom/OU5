@@ -85,27 +85,10 @@ char *substring(const char *original, int start, int length)
 }
 
 
-
-int main(int argc, const char **argv)
-{
-    FILE *in;
-    const char *map;
+int unique_cities(FILE *in, const char *map, list *l){
     char line[BUFSIZE];
-    //Verify number of parameters
-    if (argc <= 1){
-        fprintf(stderr, "Usage: ./isConnected airmap1.map\n");
-        return -1;
-    }
-    //Try to open input file
-    map = argv[1];
-    in = fopen(map, "r");
-    if (in == NULL){
-        fprintf(stderr, "Failed to open %s for reading: %s\n", map, strerror(errno));
-        return -1;
-    }
-
-    list *l = list_empty(NULL);
     int numCities = 0;
+
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
         if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
@@ -135,14 +118,52 @@ int main(int argc, const char **argv)
         }
     }
     list_pos q = list_first(l);
-    graph *g = graph_empty(numCities);
-    while (q != list_end(l)){
-        printf("%s\n", (char*)list_inspect(l, q));
-        graph_insert_node(g, (char*)list_inspect(l, q));
-        q = list_next(l, q);
+    return numCities;
+}
+
+void add_neighbours(){
+
+}
+
+void add_nodes(list *cities, graph *g){
+    list_pos q = list_first(cities);
+    while (q != list_end(cities)){
+        // printf("%s\n", (char*)list_inspect(cities, q));
+        graph_insert_node(g, (char*)list_inspect(cities, q));
+        q = list_next(cities, q);
     }
-    printf("%d\n", numCities);
+}
+
+int main(int argc, const char **argv)
+{
+    FILE *in;
+    const char *map;
+    char line[BUFSIZE];
+    //Verify number of parameters
+    if (argc <= 1){
+        fprintf(stderr, "Usage: ./isConnected airmap1.map\n");
+        return -1;
+    }
+    //Try to open input file
+    map = argv[1];
+    in = fopen(map, "r");
+    if (in == NULL){
+        fprintf(stderr, "Failed to open %s for reading: %s\n", map, strerror(errno));
+        return -1;
+    }
+
+    // Gets the amount of unique cities
+    list *cities = list_empty(NULL);
+    int numberOfCities = unique_cities(in, map, cities);
+    
+    // Create a graph based on the amount of unique cities
+    graph *g = graph_empty(numberOfCities);
+
+    // Insert nodes into the graph
+    add_nodes(cities, g);
     printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
+
+    
 
     //Count number of cities - Klar
     //Create graph with number of cities size - Klar
