@@ -5,6 +5,9 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+#include "list.h"
+#define BUFSIZE 300
+
 /* Return position of first non-whitespace character or -1 if only
    white-space is found. */
 int first_non_white_space(const char *s)
@@ -52,7 +55,12 @@ bool line_is_comment(const char *s)
     int i = first_non_white_space(s);
     return (i >= 0 && s[i] == '#');
 }
-#define BUFSIZE 300
+/* Return true if s is a integer line, i.e. '0'..'9' */
+bool line_is_integer(const char *s)
+{
+    char digit = *s;
+    return isdigit(digit);
+}
 
 char *substring(const char *original)
 {
@@ -76,6 +84,7 @@ char *substring(const char *original)
 }
 
 
+
 int main(int argc, const char **argv)
 {
     FILE *in;
@@ -93,22 +102,46 @@ int main(int argc, const char **argv)
         fprintf(stderr, "Failed to open %s for reading: %s\n", map, strerror(errno));
         return -1;
     }
-
-    //Count number of cities
-    //Create graph with number of cities size
-    //Add neighbours to graph
-    //Ask user input
-
+    list *l = list_empty(NULL);
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
-        if (line_is_blank(line) || line_is_comment(line)) {
+        if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
             // Ignore blank lines and comment lines.
             continue;
         }
         char *city = substring(line);
         // Skriver bara ut staden
         printf("stad: %s\n", city);
+
+        list_pos p = list_first(l);
+        bool duplicate = false;
+        if(list_is_empty(l)){
+            list_insert(l, city, list_end(l));
+            printf("la in: %s\n", city);
+        }
+        while (p != list_end(l)){
+            if(city == list_inspect(l, p)){
+                duplicate = true;
+            }
+            p = list_next(l, p);
+        }
+        if (!duplicate){
+            list_insert(l, city, list_end(l));
+            printf("la in: %s\n", city);
+        }
     }
+    list_pos q = list_first(l);
+    while (q != list_end(l)){
+        printf("%s\n", (char*)list_inspect(l, list_first(l)));
+        q = list_next(l, q);
+    }
+
+    //Count number of cities
+    //Create graph with number of cities size
+    //Add neighbours to graph
+    //Ask user input
+
+
 
 
     //Try to close input file
