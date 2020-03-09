@@ -125,7 +125,7 @@ int main(int argc, const char **argv)
             printf("%s\n", list_inspect(l, p));
             char *inspected_value = list_inspect(l, p);
 
-            if(strcmp(city, inspected_value)){
+            if(!strcmp(city, inspected_value)){
                 duplicate = true;
             }
             p = list_next(l, p);
@@ -141,13 +141,10 @@ int main(int argc, const char **argv)
         q = list_next(l, q);
     }
 
-    //Count number of cities
+    //Count number of cities - Klar
     //Create graph with number of cities size
     //Add neighbours to graph
     //Ask user input
-
-
-
 
     //Try to close input file
     if (fclose(in)){

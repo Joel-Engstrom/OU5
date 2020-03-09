@@ -1,12 +1,18 @@
 #include <stdbool.h>
 #include "util.h"
 #include "dlist.h"
+#include "graph.h"
 
-// ====================== PUBLIC DATA TYPES ==========================
+struct graph
+{
+    /* data */
+};
 
-// Anonymous declarations of node and graph.
-typedef struct node node;
-typedef struct graph graph;
+struct node
+{
+    /* data */
+};
+
 
 // =================== NODE COMPARISON FUNCTION ======================
 
@@ -28,7 +34,9 @@ bool nodes_are_equal(const node *n1,const node *n2);
  *
  * Returns: A pointer to the new graph.
  */
-graph *graph_empty(int max_nodes);
+graph *graph_empty(int max_nodes){
+
+}
 
 /**
  * graph_is_empty() - Check if a graph is empty, i.e. has no nodes.
