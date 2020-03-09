@@ -63,7 +63,7 @@ bool line_is_integer(const char *s)
     return isdigit(digit);
 }
 
-list *readCities(const char *map){
+graph *readCities(const char *map){
     FILE *in;
     char line[BUFSIZE];
 
@@ -106,12 +106,21 @@ list *readCities(const char *map){
             numCities++;
         }
     }
+    list_pos q = list_first(l);
+    graph *g = graph_empty(numCities);
+    while (q != list_end(l)){
+        printf("%s\n", (char*)list_inspect(l, q));
+        graph_insert_node(g, (char*)list_inspect(l, q));
+        q = list_next(l, q);
+    }
+    printf("%d\n", numCities);
+    printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
     //Try to close input file
     if (fclose(in)){
         fprintf(stderr, "Failed to close %s: %s", map, strerror(errno));
         return -1;
     }
-    return l;
+    return g;
 }
 
 char *substring(const char *original, int start, int length)
@@ -145,20 +154,13 @@ int main(int argc, const char **argv)
         return -1;
     }
 
-    readCities(argv[1]);
-
-    list_pos q = list_first(l);
-    graph *g = graph_empty(numCities);
-    while (q != list_end(l)){
-        printf("%s\n", (char*)list_inspect(l, q));
-        graph_insert_node(g, (char*)list_inspect(l, q));
-        q = list_next(l, q);
-    }
-    printf("%d\n", numCities);
-    printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
-
     //Count number of cities - Klar
     //Create graph with number of cities size - Klar
+    readCities(argv[1]);
+
+
+
+
     //Add neighbours to graph - Inte klar
     //Ask user input - Inte klar
 
