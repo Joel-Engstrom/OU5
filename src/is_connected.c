@@ -102,7 +102,9 @@ int main(int argc, const char **argv)
         fprintf(stderr, "Failed to open %s for reading: %s\n", map, strerror(errno));
         return -1;
     }
+
     list *l = list_empty(NULL);
+    int numCities = 0;
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
         if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
@@ -110,19 +112,15 @@ int main(int argc, const char **argv)
             continue;
         }
         char *city = substring(line);
-        // Skriver bara ut staden
-        printf("stad: %s\n", city);
 
         list_pos p = list_first(l);
         bool duplicate = false;
         if(list_is_empty(l)){
             list_insert(l, city, list_end(l));
-            printf("la in: %s\n", city);
+            numCities++;
             continue;
         }
         while (p != list_end(l)){
-            printf("%s \n", city);
-            printf("%s\n", list_inspect(l, p));
             char *inspected_value = list_inspect(l, p);
 
             if(!strcmp(city, inspected_value)){
@@ -132,14 +130,15 @@ int main(int argc, const char **argv)
         }
         if (!duplicate){
             list_insert(l, city, list_end(l));
-            printf("la in: %s\n", city);
+            numCities++;
         }
     }
     list_pos q = list_first(l);
     while (q != list_end(l)){
-        printf("%s\n", (char*)list_inspect(l, list_first(l)));
+        printf("%s\n", (char*)list_inspect(l, q));
         q = list_next(l, q);
     }
+    printf("%d\n", numCities);
 
     //Count number of cities - Klar
     //Create graph with number of cities size
