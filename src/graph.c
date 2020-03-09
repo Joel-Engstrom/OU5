@@ -1,16 +1,21 @@
 #include <stdbool.h>
+#include <stdlib.h>
 #include "util.h"
 #include "dlist.h"
 #include "graph.h"
+#include "list.h"
+#include "array_1d.h"
 
 struct graph
 {
-    /* data */
+    array_1d *cities;
+    int freeIndex;
 };
 
 struct node
 {
-    /* data */
+    char *name;
+    list *neighbours;
 };
 
 
@@ -35,7 +40,10 @@ bool nodes_are_equal(const node *n1,const node *n2);
  * Returns: A pointer to the new graph.
  */
 graph *graph_empty(int max_nodes){
-
+    graph *g = calloc(1, sizeof(struct graph));
+    g->cities = array_1d_create(0, max_nodes, NULL);
+    g->freeIndex = 0;
+    return g;
 }
 
 /**
@@ -64,7 +72,14 @@ bool graph_has_edges(const graph *g);
  *
  * Returns: The modified graph.
  */
-graph *graph_insert_node(graph *g, const char *s);
+graph *graph_insert_node(graph *g, const char *s){
+    node *n = calloc(1, sizeof(node));
+    n->name = s;
+    n->neighbours = NULL;
+    array_1d_set_value(g->cities, n, g->freeIndex);
+    g->freeIndex++;
+    return g;
+}
 
 /**
  * graph_find_node() - Find a node stored in the graph.
