@@ -85,12 +85,13 @@ char *substring(const char *original, int start, int length)
 }
 
 
-int unique_cities(FILE *in, const char *map, list *l){
+int unique_cities(FILE *in, list *l){
     char line[BUFSIZE];
     int numCities = 0;
 
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
+        
         if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
             // Ignore blank lines and comment lines.
             continue;
@@ -121,7 +122,27 @@ int unique_cities(FILE *in, const char *map, list *l){
     return numCities;
 }
 
-void add_neighbours(){
+void add_neighbours(FILE *in, graph *g){
+    char line[BUFSIZE];
+    
+    // Gets the full column of cities
+    while (fgets(line, BUFSIZE, in) != NULL) {
+        printf("%s", "Jag blir kallad!\n");
+        if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
+            // Ignore blank lines and comment lines.
+            continue;
+        }
+        char *col1 = substring(line, 1, 3);
+        node *startNode = graph_find_node(g, col1);
+        char *col2 = substring(line, 5, 3);
+        node *destNode = graph_find_node(g, col2);
+        
+        if (startNode != NULL && destNode != NULL)
+        {
+            
+            graph_insert_edge(g, startNode, destNode);
+        }
+    }
 
 }
 
@@ -154,16 +175,18 @@ int main(int argc, const char **argv)
 
     // Gets the amount of unique cities
     list *cities = list_empty(NULL);
-    int numberOfCities = unique_cities(in, map, cities);
+    int numberOfCities = unique_cities(in, cities);
     
     // Create a graph based on the amount of unique cities
     graph *g = graph_empty(numberOfCities);
 
+    // Add neighbours to all nodes
+    add_neighbours(in, g);
+
     // Insert nodes into the graph
     add_nodes(cities, g);
     printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
-
-    
+    printf("Does any neighbours exist: %s\n", graph_has_edges(g) ? "true" : "false");
 
     //Count number of cities - Klar
     //Create graph with number of cities size - Klar

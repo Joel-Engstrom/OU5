@@ -8,6 +8,7 @@
 struct graph
 {
     array_1d *cities;
+    int size;
     int freeIndex;
 };
 
@@ -30,6 +31,7 @@ graph *graph_empty(int max_nodes){
     graph *g = calloc(1, sizeof(struct graph));
     g->cities = array_1d_create(0, max_nodes, NULL);
     g->freeIndex = 0;
+    g->size = max_nodes;
     return g;
 }
 
@@ -49,7 +51,17 @@ bool graph_is_empty(const graph *g){
  *
  * Returns: True if graph has any edges, otherwise false.
  */
-bool graph_has_edges(const graph *g);
+bool graph_has_edges(const graph *g){
+    for (int i = 0; i < g->size; i++)
+    {
+        node *inspected = array_1d_inspect_value(g->cities, i);
+        if (!dlist_is_empty(inspected->neighbours))
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 /**
  * graph_insert_node() - Inserts a node with the given name into the graph.
@@ -78,7 +90,17 @@ graph *graph_insert_node(graph *g, const char *s){
  *
  * Returns: A pointer to the found node, or NULL.
  */
-node *graph_find_node(const graph *g, const char *s);
+node *graph_find_node(const graph *g, const char *s){
+    for (int i = 0; i < g->size; i++)
+    {
+        node *inspected = array_1d_inspect_value(g->cities, i);
+        if (inspected->name == s);
+        {
+            return inspected;
+        }
+    }
+    return NULL;
+}
 
 /**
  * graph_node_is_seen() - Return the seen status for a node.
