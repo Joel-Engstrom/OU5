@@ -57,7 +57,7 @@ bool line_is_comment(const char *s)
 char *substring(const char *original)
 {
     char *city;
-    int position = 1, length = 3, c;
+    int position = 1, length = 3, c=0;
     // 4 eftersom \0 också behövs på slutet
     city = malloc(4);
     // Kontrollera så att det finns minne
@@ -108,7 +108,7 @@ int main(int argc, const char **argv)
         }
         char *city = substring(line);
         // Skriver bara ut staden
-        printf("%s\n", city);
+        printf("stad: %s\n", city);
     }
 
 
