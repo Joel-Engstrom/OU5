@@ -63,17 +63,17 @@ bool line_is_integer(const char *s)
     return isdigit(digit);
 }
 
-char *substring(const char *original)
+char *substring(const char *original, int start, int length)
 {
     char *city;
-    int position = 1, length = 3, c=0;
+    int position = start, c=0;
     // 4 eftersom \0 också behövs på slutet
-    city = malloc(4);
+    city = malloc(sizeof(char) * 4);
     // Kontrollera så att det finns minne
     if (city == NULL)
     {
         printf("Unable to allocate memory.\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     // Körs 3 gånger för att ta dem tre första bokstäverna
     while (c < length) {
@@ -112,7 +112,7 @@ int main(int argc, const char **argv)
             // Ignore blank lines and comment lines.
             continue;
         }
-        char *city = substring(line);
+        char *city = substring(line, 1, 3);
 
         list_pos p = list_first(l);
         bool duplicate = false;
@@ -145,9 +145,9 @@ int main(int argc, const char **argv)
     printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
 
     //Count number of cities - Klar
-    //Create graph with number of cities size
-    //Add neighbours to graph
-    //Ask user input
+    //Create graph with number of cities size - Klar
+    //Add neighbours to graph - Inte klar
+    //Ask user input - Inte klar
 
     //Try to close input file
     if (fclose(in)){

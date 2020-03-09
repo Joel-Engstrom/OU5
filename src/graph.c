@@ -3,7 +3,6 @@
 #include "util.h"
 #include "dlist.h"
 #include "graph.h"
-#include "list.h"
 #include "array_1d.h"
 
 struct graph
@@ -15,7 +14,8 @@ struct graph
 struct node
 {
     const char *name;
-    list *neighbours;
+    int index;
+    dlist *neighbours;
 };
 
 // =================== GRAPH STRUCTURE INTERFACE ======================
@@ -64,7 +64,8 @@ bool graph_has_edges(const graph *g);
 graph *graph_insert_node(graph *g, const char *s){
     node *n = calloc(1, sizeof(node));
     n->name = s;
-    n->neighbours = NULL;
+    n->neighbours = dlist_empty(NULL);
+    n->index = g->freeIndex;
     array_1d_set_value(g->cities, n, g->freeIndex);
     g->freeIndex++;
     return g;
@@ -116,7 +117,11 @@ graph *graph_reset_seen(graph *g);
  *
  * Returns: The modified graph.
  */
-graph *graph_insert_edge(graph *g, node *n1, node *n2);
+graph *graph_insert_edge(graph *g, node *n1, node *n2){
+    
+    dlist_insert(n1->neighbours, n2, dlist_first(n1->neighbours));
+    return g;
+}
 
 /**
  * graph_delete_node() - Remove a node from the graph.
@@ -159,7 +164,10 @@ node *graph_choose_node(const graph *g);
  * Returns: A pointer to a list of nodes. Note: The list must be
  * dlist_kill()-ed after use.
  */
-dlist *graph_neighbours(const graph *g,const node *n);
+dlist *graph_neighbours(const graph *g,const node *n){
+    node *inspected = array_1d_inspect_value(g->cities, n->index);
+    return inspected->neighbours;
+}
 
 /**
  * graph_kill() - Destroy a given graph.
