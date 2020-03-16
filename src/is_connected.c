@@ -62,7 +62,10 @@ bool line_is_integer(const char *s)
     char digit = *s;
     return isdigit(digit);
 }
-
+/*
+ * Read a part of a string, original from integer start with length of integer length
+ * Return a substring of original
+ */
 char *substring(const char *original, int start, int length)
 {
     char *city;
@@ -84,7 +87,10 @@ char *substring(const char *original, int start, int length)
     return city;
 }
 
-
+/*
+ * Counts the number of unique cities from a file
+ * Returns an integer of number of cities
+ */
 int unique_cities(FILE *in, list *l){
     char line[BUFSIZE];
     int numCities = 0;
@@ -121,7 +127,9 @@ int unique_cities(FILE *in, list *l){
     list_pos q = list_first(l);
     return numCities;
 }
-
+/*
+ * Add the neighbouring cities to each node
+ */
 void add_neighbours(FILE *in, graph *g){
     char line[BUFSIZE];
     // Gets the full column of cities
@@ -142,7 +150,9 @@ void add_neighbours(FILE *in, graph *g){
     }
 
 }
-
+/*
+ * Inserts nodes representing cities in to a grapgh
+ */
 void add_nodes(list *cities, graph *g){
     list_pos q = list_first(cities);
     while (q != list_end(cities)){
@@ -172,13 +182,22 @@ int main(int argc, const char **argv)
     // Gets the amount of unique cities
     list *cities = list_empty(NULL);
     int numberOfCities = unique_cities(in, cities);
+
     fclose(in);
-    
+    //Try to close input file
+    if (fclose(in)){
+        fprintf(stderr, "Failed to close %s: %s", map, strerror(errno));
+        return -1;
+    }
     // Create a graph based on the amount of unique cities
     graph *g = graph_empty(numberOfCities);
 
-    // Add nodes to all nodes
     in = fopen(map, "r");
+    if (in == NULL){
+        fprintf(stderr, "Failed to open %s for reading: %s\n", map, strerror(errno));
+        return -1;
+    }
+    // Add nodes to all nodes
     add_nodes(cities, g);
 
     // Insert neighbours into the graph
@@ -186,10 +205,12 @@ int main(int argc, const char **argv)
     printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
     printf("Does any neighbours exist: %s\n", graph_has_edges(g) ? "true" : "false");
 
-    //Count number of cities - Klar
-    //Create graph with number of cities size - Klar
-    //Add neighbours to graph - KLAAAAAR
-    //Ask user input - Inte klar
+    //Asks some user input
+    printf("Enter origin and destination (quit to exit): ");
+    char input[10];
+    fgets(input, 30, stdin);
+    char *origin = substring(input, 1, 3);
+    char *dest = substring(input, 5, 3);
 
     //Try to close input file
     if (fclose(in)){
