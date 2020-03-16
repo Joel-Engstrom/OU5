@@ -205,12 +205,23 @@ int main(int argc, const char **argv)
     printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
     printf("Does any neighbours exist: %s\n", graph_has_edges(g) ? "true" : "false");
 
-    //Asks some user input
-    printf("Enter origin and destination (quit to exit): ");
     char input[10];
-    fgets(input, 30, stdin);
-    char *origin = substring(input, 1, 3);
-    char *dest = substring(input, 5, 3);
+    char *answer;
+    //Asks some user input
+    do{
+        printf("Enter origin and destination (quit to exit): ");
+
+        fgets(input, 10, stdin);
+        answer = substring(input, 1, 4);
+        printf("%s", input);
+        if (strcmp(answer, "quit")){
+
+            char *origin = substring(input, 1, 3);
+            char *dest = substring(input, 5, 3);
+        }
+
+    }while (strcmp(answer, "quit"));
+
 
     //Try to close input file
     if (fclose(in)){
