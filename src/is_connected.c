@@ -293,6 +293,15 @@ int main(int argc, const char **argv)
         pos = list_next(cities, pos);
     }
     list_kill(cities);
+
+    pos = list_first(edges);
+    while (pos != list_end(edges))
+    {
+        free(list_inspect(edges, pos));
+        pos = list_next(edges, pos);
+    }
+    list_kill(edges);
+
     
     graph_kill(g);
     //Try to close input file
