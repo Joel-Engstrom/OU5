@@ -71,7 +71,7 @@ char *substring(const char *original, int start, int length)
     char *city;
     int position = start, c=0;
     // 4 eftersom \0 också behövs på slutet
-    city = malloc(sizeof(char) * 4);
+    city = malloc(sizeof(char) * length+1);
     // Kontrollera så att det finns minne
     if (city == NULL)
     {
@@ -238,14 +238,13 @@ int main(int argc, const char **argv)
             if (!invalidOrigin && !invalidDest){
                 //Kör sökning
                 printf("sök\n");
-            } else{
+
+            }else{
                 fprintf(stderr, "Invalid input. Try again\n");
             }
-
         }
-
     }while (strcmp(answer, "quit"));
-
+    printf("Normal exit\n");
 
     //Try to close input file
     if (fclose(in)){
