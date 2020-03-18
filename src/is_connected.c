@@ -207,17 +207,39 @@ int main(int argc, const char **argv)
 
     char input[10];
     char *answer;
+    list_pos p;
+    bool invalidOrigin;
+    bool invalidDest;
     //Asks some user input
     do{
         printf("Enter origin and destination (quit to exit): ");
 
         fgets(input, 10, stdin);
         answer = substring(input, 1, 4);
-        printf("%s", input);
         if (strcmp(answer, "quit")){
-
             char *origin = substring(input, 1, 3);
             char *dest = substring(input, 5, 3);
+            p = list_first(cities);
+            invalidOrigin = true;
+            invalidDest = true;
+            //Search the list of cities to confirm input exists
+            for (int i = 0; i < numberOfCities; i++) {
+                char *inspected_city = list_inspect(cities, p);
+                if (!strcmp(origin, inspected_city)){
+                    invalidOrigin = false;
+                }
+                if (!strcmp(dest, inspected_city)){
+                    invalidDest = false;
+                }
+                p = list_next(cities, p);
+            }
+            if (!invalidOrigin && !invalidDest){
+                //Kör sökning
+                printf("sök\n");
+            } else{
+                fprintf(stderr, "Invalid input. Try again\n");
+            }
+
         }
 
     }while (strcmp(answer, "quit"));
