@@ -160,7 +160,6 @@ void add_neighbours(FILE *in, graph *g){
             graph_insert_edge(g, startNode, destNode);
         }
     }
-
 }
 
 

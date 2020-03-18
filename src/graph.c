@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include "util.h"
 #include "dlist.h"
 #include "graph.h"
@@ -95,7 +96,7 @@ node *graph_find_node(const graph *g, const char *s){
     for (int i = 0; i < g->size; i++)
     {
         node *inspected = array_1d_inspect_value(g->cities, i);
-        if (inspected->name == s);
+        if (!strcmp(inspected->name,s))
         {
             return inspected;
         }
