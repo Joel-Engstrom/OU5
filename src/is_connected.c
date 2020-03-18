@@ -91,40 +91,38 @@ char *substring(const char *original, int start, int length)
  * Counts the number of unique cities from a file
  * Returns an integer of number of cities
  */
-int unique_cities(FILE *in, list *l){
-    char line[BUFSIZE];
+int unique_cities(list *cities, list *edges){
+    list_pos P_edges = list_first(edges);
+    list_pos P_cities = list_first(cities);
     int numCities = 0;
 
     // Read a line at a time from the input file until EOF
-    while (fgets(line, BUFSIZE, in) != NULL) {
+    while (P_edges != list_end(edges)) {
         
-        if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
-            // Ignore blank lines and comment lines.
-            continue;
-        }
-        char *city = substring(line, 1, 3);
-
-        list_pos p = list_first(l);
+        char *city = substring(list_inspect(edges, P_edges), 1, 3);
         bool duplicate = false;
-        if(list_is_empty(l)){
-            list_insert(l, city, list_end(l));
+        
+        if(list_is_empty(cities)){
+            list_insert(cities, city, list_end(cities));
             numCities++;
             continue;
         }
-        while (p != list_end(l)){
-            char *inspected_value = list_inspect(l, p);
+
+        while (P_cities != list_end(cities)){
+            char *inspected_value = list_inspect(cities, P_cities);
 
             if(!strcmp(city, inspected_value)){
                 duplicate = true;
             }
-            p = list_next(l, p);
+            P_cities = list_next(cities, P_cities);
         }
+        P_cities = list_first(cities);
         if (!duplicate){
-            list_insert(l, city, list_end(l));
+            list_insert(cities, city, list_end(cities));
             numCities++;
         }
+        P_edges = list_next(edges, P_edges);
     }
-    list_pos q = list_first(l);
     return numCities;
 }
 
@@ -142,23 +140,38 @@ void add_nodes(list *cities, graph *g){
 /*
  * Add the neighbouring cities to each node
  */
-void add_neighbours(FILE *in, graph *g){
-    char line[BUFSIZE];
+void add_neighbours(list *l, graph *g){
+    list_pos P_edges = list_first(l);
+    
     // Gets the full column of cities
-    while (fgets(line, BUFSIZE, in) != NULL) {
-        if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
-            // Ignore blank lines and comment lines.
-            continue;
-        }
-        char *col1 = substring(line, 1, 3);
+    while (P_edges != list_end(l)) {
+        char *col1 = substring(list_inspect(l, P_edges), 1, 3);
         node *startNode = graph_find_node(g, col1);
-        char *col2 = substring(line, 5, 3);
+        char *col2 = substring(list_inspect(l, P_edges), 5, 3);
         node *destNode = graph_find_node(g, col2);
         
         if (startNode != NULL && destNode != NULL)
         {
             graph_insert_edge(g, startNode, destNode);
         }
+        P_edges = list_next(l, P_edges);
+    }
+}
+
+void read_file(FILE *in, list *l){
+    char line[BUFSIZE];
+    int numCities = 0;
+
+    // Read a line at a time from the input file until EOF
+    while (fgets(line, BUFSIZE, in) != NULL) {
+        
+        if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
+            // Ignore blank lines and comment lines.
+            continue;
+        }
+        char *city = substring(line, 1, 7);
+        
+        list_insert(l, city, list_end(l));
     }
 }
 
@@ -181,29 +194,22 @@ int main(int argc, const char **argv)
         return -1;
     }
 
+    // Create lists ..
+    list *edges = list_empty(NULL);
+    read_file(in, edges);
+    
     // Gets the amount of unique cities
     list *cities = list_empty(NULL);
-    int numberOfCities = unique_cities(in, cities);
+    int numberOfCities = unique_cities(cities, edges);
 
-    fclose(in);
-    //Try to close input file
-    if (fclose(in)){
-        fprintf(stderr, "Failed to close %s: %s", map, strerror(errno));
-        return -1;
-    }
     // Create a graph based on the amount of unique cities
     graph *g = graph_empty(numberOfCities);
 
-    in = fopen(map, "r");
-    if (in == NULL){
-        fprintf(stderr, "Failed to open %s for reading: %s\n", map, strerror(errno));
-        return -1;
-    }
     // Add nodes to all nodes
     add_nodes(cities, g);
 
     // Insert neighbours into the graph
-    add_neighbours(in, g);
+    add_neighbours(edges, g);
     printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
     printf("Does any neighbours exist: %s\n", graph_has_edges(g) ? "true" : "false");
 
