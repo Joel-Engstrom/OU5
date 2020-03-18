@@ -21,6 +21,16 @@ struct node
     bool seen;
 };
 
+/**
+ * nodes_are_equal() - Check whether two nodes are equal.
+ * @n1: Pointer to node 1.
+ * @n2: Pointer to node 2.
+ *
+ * Returns: true if the nodes are considered equal, otherwise false.
+ *
+ */
+bool nodes_are_equal(const node *n1,const node *n2);
+
 // =================== GRAPH STRUCTURE INTERFACE ======================
 
 /**
@@ -112,7 +122,7 @@ node *graph_find_node(const graph *g, const char *s){
  * Returns: The seen status for the node.
  */
 bool graph_node_is_seen(const graph *g, const node *n){
-
+    return n->seen;
 }
 
 /**
@@ -124,7 +134,8 @@ bool graph_node_is_seen(const graph *g, const node *n){
  * Returns: The modified graph.
  */
 graph *graph_node_set_seen(graph *g, node *n, bool seen){
-
+    n->seen = seen;
+    return g;
 }
 
 /**
@@ -134,7 +145,12 @@ graph *graph_node_set_seen(graph *g, node *n, bool seen){
  * Returns: The modified graph.
  */
 graph *graph_reset_seen(graph *g){
-
+    for (int i = 0; i < g->size; i++)
+    {
+        node *inspected = array_1d_inspect_value(g->cities, i);
+        inspected->seen = false;
+    }
+    return g;
 }
 
 /**

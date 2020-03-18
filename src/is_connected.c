@@ -7,6 +7,7 @@
 
 #include "list.h"
 #include "graph.h"
+#include "queue.h"
 #define BUFSIZE 300
 
 /* Return position of first non-whitespace character or -1 if only
@@ -175,6 +176,33 @@ void read_file(FILE *in, list *l){
     }
 }
 
+bool find_path(node *n1, node *n2, graph *g){
+    queue *q = queue_empty(NULL);
+    graph_node_set_seen(g, n1, true);
+    queue_enqueue(q, n1);
+    while (!queue_is_empty(q))
+    {
+        node *p = queue_front(q);
+        q = queue_dequeue(q);
+        dlist *neighbours = graph_neighbours(g, p);
+        dlist_pos pos = dlist_first(neighbours);
+        while (!dlist_is_end(neighbours, pos))
+        {
+            if (!graph_node_is_seen(g, dlist_inspect(neighbours, pos)))
+            {
+                graph_node_set_seen(g, dlist_inspect(neighbours, pos), true);
+                queue_enqueue(q, dlist_inspect(neighbours, pos));
+            }
+            pos = dlist_next(neighbours, pos);
+        }
+    }
+    if (graph_node_is_seen(g, n2))
+    {
+        return true;
+    }
+    return false;
+}
+
 
 int main(int argc, const char **argv)
 {
@@ -243,8 +271,8 @@ int main(int argc, const char **argv)
             }
             if (!invalidOrigin && !invalidDest){
                 //Kör sökning
-                printf("sök\n");
-
+                printf("Is there a path between the two cities: %s\n", find_path(graph_find_node(g, origin), graph_find_node(g, dest), g) ? "true" : "false");
+                graph_reset_seen(g);
             }else{
                 fprintf(stderr, "Invalid input. Try again\n");
             }
