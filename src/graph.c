@@ -17,6 +17,7 @@ struct node
     const char *name;
     int index;
     dlist *neighbours;
+    bool seen;
 };
 
 // =================== GRAPH STRUCTURE INTERFACE ======================
@@ -109,7 +110,9 @@ node *graph_find_node(const graph *g, const char *s){
  *
  * Returns: The seen status for the node.
  */
-bool graph_node_is_seen(const graph *g, const node *n);
+bool graph_node_is_seen(const graph *g, const node *n){
+
+}
 
 /**
  * graph_node_set_seen() - Set the seen status for a node.
@@ -119,7 +122,9 @@ bool graph_node_is_seen(const graph *g, const node *n);
  *
  * Returns: The modified graph.
  */
-graph *graph_node_set_seen(graph *g, node *n, bool seen);
+graph *graph_node_set_seen(graph *g, node *n, bool seen){
+
+}
 
 /**
  * graph_reset_seen() - Reset the seen status on all nodes in the graph.
@@ -127,7 +132,9 @@ graph *graph_node_set_seen(graph *g, node *n, bool seen);
  *
  * Returns: The modified graph.
  */
-graph *graph_reset_seen(graph *g);
+graph *graph_reset_seen(graph *g){
+
+}
 
 /**
  * graph_insert_edge() - Insert an edge into the graph.

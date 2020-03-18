@@ -127,6 +127,18 @@ int unique_cities(FILE *in, list *l){
     list_pos q = list_first(l);
     return numCities;
 }
+
+/*
+ * Inserts nodes representing cities in to a graph
+ */
+void add_nodes(list *cities, graph *g){
+    list_pos q = list_first(cities);
+    while (q != list_end(cities)){
+        graph_insert_node(g, (char*)list_inspect(cities, q));
+        q = list_next(cities, q);
+    }
+}
+
 /*
  * Add the neighbouring cities to each node
  */
@@ -150,16 +162,7 @@ void add_neighbours(FILE *in, graph *g){
     }
 
 }
-/*
- * Inserts nodes representing cities in to a grapgh
- */
-void add_nodes(list *cities, graph *g){
-    list_pos q = list_first(cities);
-    while (q != list_end(cities)){
-        graph_insert_node(g, (char*)list_inspect(cities, q));
-        q = list_next(cities, q);
-    }
-}
+
 
 int main(int argc, const char **argv)
 {
