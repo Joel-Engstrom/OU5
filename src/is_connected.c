@@ -238,8 +238,6 @@ int main(int argc, const char **argv)
 
     // Insert neighbours into the graph
     add_neighbours(edges, g);
-    printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
-    printf("Does any neighbours exist: %s\n", graph_has_edges(g) ? "true" : "false");
 
     char input[10];
     char *answer;
@@ -271,15 +269,32 @@ int main(int argc, const char **argv)
             }
             if (!invalidOrigin && !invalidDest){
                 //Kör sökning
-                printf("Is there a path between the two cities: %s\n", find_path(graph_find_node(g, origin), graph_find_node(g, dest), g) ? "true" : "false");
+                bool hasPath = find_path(graph_find_node(g, origin), graph_find_node(g, dest), g);
+                if (hasPath)
+                {
+                    printf("There is a path from %s to %s.\n\n", origin, dest);
+                } else
+                {
+                    printf("There is no path from %s to %s.\n\n", origin, dest);
+                }
                 graph_reset_seen(g);
             }else{
                 fprintf(stderr, "Invalid input. Try again\n");
             }
         }
     }while (strcmp(answer, "quit"));
-    printf("Normal exit\n");
+    printf("Normal exit.\n");
 
+    // Cleanup time
+    list_pos pos = list_first(cities);
+    while (pos != list_end(cities))
+    {
+        free(list_inspect(cities, pos));
+        pos = list_next(cities, pos);
+    }
+    list_kill(cities);
+    
+    graph_kill(g);
     //Try to close input file
     if (fclose(in)){
         fprintf(stderr, "Failed to close %s: %s", map, strerror(errno));

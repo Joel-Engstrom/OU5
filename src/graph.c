@@ -223,7 +223,14 @@ dlist *graph_neighbours(const graph *g,const node *n){
  *
  * Returns: Nothing.
  */
-void graph_kill(graph *g);
+void graph_kill(graph *g){
+    for (int i = 0; i < g->size; i++)
+    {
+        node *inspected = array_1d_inspect_value(g->cities, i);
+        free(inspected);
+    }
+    free(g);
+}
 
 /**
  * graph_print() - Iterate over the graph elements and print their values.
