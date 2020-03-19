@@ -88,6 +88,22 @@ char *substring(const char *original, int start, int length)
     return city;
 }
 
+void read_file(FILE *in, list *l){
+    char line[BUFSIZE];
+    int numCities = 0;
+
+    // Read a line at a time from the input file until EOF
+    while (fgets(line, BUFSIZE, in) != NULL) {
+        if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
+            // Ignore blank lines and comment lines.
+            continue;
+        }
+        char *city = substring(line, 1, 7);
+
+        list_insert(l, city, list_end(l));
+    }
+}
+
 /*
  * Counts the number of unique cities from a file
  * Returns an integer of number of cities
@@ -161,21 +177,7 @@ void add_neighbours(list *l, graph *g){
     }
 }
 
-void read_file(FILE *in, list *l){
-    char line[BUFSIZE];
-    int numCities = 0;
 
-    // Read a line at a time from the input file until EOF
-    while (fgets(line, BUFSIZE, in) != NULL) {
-        if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
-            // Ignore blank lines and comment lines.
-            continue;
-        }
-        char *city = substring(line, 1, 7);
-        
-        list_insert(l, city, list_end(l));
-    }
-}
 
 bool find_path(node *n1, node *n2, graph *g){
     queue *q = queue_empty(NULL);

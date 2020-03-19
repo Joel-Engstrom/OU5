@@ -21,16 +21,6 @@ struct node
     bool seen;
 };
 
-/**
- * nodes_are_equal() - Check whether two nodes are equal.
- * @n1: Pointer to node 1.
- * @n2: Pointer to node 2.
- *
- * Returns: true if the nodes are considered equal, otherwise false.
- *
- */
-bool nodes_are_equal(const node *n1,const node *n2);
-
 // =================== GRAPH STRUCTURE INTERFACE ======================
 
 /**
@@ -179,7 +169,7 @@ graph *graph_insert_edge(graph *g, node *n1, node *n2){
  * NOTE: Undefined if the node is not in the graph.
  */
 graph *graph_delete_node(graph *g, node *n){
-
+    
 }
 
 /**
