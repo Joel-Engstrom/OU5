@@ -57,6 +57,18 @@ bool line_is_comment(const char *s)
     int i = first_non_white_space(s);
     return (i >= 0 && s[i] == '#');
 }
+
+int has_comment(const char *s){
+    int i = 0; // Start at first char.
+    // Advance until we hit EOL as long as we're loooking at white-space.
+    while (s[i]) {
+        if (s[i] == 35) {
+            return i; // Return position of found a non-white-space char.
+        }
+        i++;
+    }
+    return -1; // Return fail.
+}
 /* Return true if s is a integer line, i.e. '0'..'9' */
 bool line_is_integer(const char *s)
 {
@@ -98,8 +110,12 @@ void read_file(FILE *in, list *l){
             // Ignore blank lines and comment lines.
             continue;
         }
-        char *city = substring(line, 1, 7);
-
+        int whereToCut = has_comment(line) - 1;
+        if (whereToCut == -1)
+        {
+            whereToCut = strlen(line);
+        }
+        char *city = substring(line, 1, whereToCut);
         list_insert(l, city, list_end(l));
     }
 }
@@ -118,7 +134,6 @@ int unique_cities(list *cities, list *edges){
         
         char *city = substring(list_inspect(edges, P_edges), 1, 3);
         bool duplicate = false;
-        
         if(list_is_empty(cities)){
             list_insert(cities, city, list_end(cities));
             numCities++;
