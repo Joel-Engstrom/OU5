@@ -131,15 +131,24 @@ int unique_cities(list *cities, list *edges){
 
     // Read a line at a time from the input file until EOF
     while (P_edges != list_end(edges)) {
-        
-        char *city = substring(list_inspect(edges, P_edges), 1, 3);
+        char *city = strtok(list_inspect(edges, P_edges), " ");
+        char *city2 = strtok(NULL, " ");
         bool duplicate = false;
+
+        // If the list is empty insert immediatly
         if(list_is_empty(cities)){
             list_insert(cities, city, list_end(cities));
+            char *inspected_value = list_inspect(cities, list_first(cities));
+            if (strcmp(inspected_value, city2))
+            {
+                list_insert(cities, city2, list_end(cities));
+                numCities++;
+            }
             numCities++;
+            P_edges = list_next(edges, P_edges);
             continue;
         }
-
+        // Check if City1 is a duplicate, if not insert it.
         while (P_cities != list_end(cities)){
             char *inspected_value = list_inspect(cities, P_cities);
 
@@ -152,8 +161,23 @@ int unique_cities(list *cities, list *edges){
         if (!duplicate){
             list_insert(cities, city, list_end(cities));
             numCities++;
-        } else{
-            free(city);
+        }
+        
+        // Check if city2 is a duplicate, if not insert it.
+        duplicate = false;
+        while (P_cities != list_end(cities))
+        {
+            char *inspected_value = list_inspect(cities, P_cities);
+
+            if(!strcmp(city2, inspected_value)){
+                duplicate = true;
+            }
+            P_cities = list_next(cities, P_cities);
+        }
+        P_cities = list_first(cities);
+        if (!duplicate){
+            list_insert(cities, city, list_end(cities));
+            numCities++;
         }
         P_edges = list_next(edges, P_edges);
     }
@@ -267,6 +291,7 @@ int main(int argc, const char **argv)
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
+    graph_print(g);
     //Asks some user input
     while (1){
         printf("Enter origin and destination (quit to exit): ");

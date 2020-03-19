@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -234,4 +235,11 @@ void graph_kill(graph *g){
  *
  * Returns: Nothing.
  */
-void graph_print(const graph *g);
+void graph_print(const graph *g){
+    for (int i = 0; i < g->size; i++)
+    {
+        node *inspected_node = array_1d_inspect_value(g->cities, i);
+        printf("Node %d: %s\n", inspected_node->index, inspected_node->name);
+    }
+    
+}
