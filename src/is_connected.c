@@ -121,6 +121,8 @@ int unique_cities(list *cities, list *edges){
         if (!duplicate){
             list_insert(cities, city, list_end(cities));
             numCities++;
+        } else{
+            free(city);
         }
         P_edges = list_next(edges, P_edges);
     }
@@ -165,7 +167,6 @@ void read_file(FILE *in, list *l){
 
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
-        
         if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
             // Ignore blank lines and comment lines.
             continue;
@@ -196,6 +197,7 @@ bool find_path(node *n1, node *n2, graph *g){
             pos = dlist_next(neighbours, pos);
         }
     }
+    queue_kill(q);
     if (graph_node_is_seen(g, n2))
     {
         return true;
@@ -241,22 +243,25 @@ int main(int argc, const char **argv)
 
     char input[10];
     char *answer;
+    char *origin;
+    char *dest;
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
     //Asks some user input
-    do{
+    while (1){
         printf("Enter origin and destination (quit to exit): ");
 
         fgets(input, 10, stdin);
         answer = substring(input, 1, 4);
         if (strcmp(answer, "quit")){
-            char *origin = substring(input, 1, 3);
-            char *dest = substring(input, 5, 3);
-            p = list_first(cities);
+            origin = substring(input, 1, 3);
+            dest = substring(input, 5, 3);
             invalidOrigin = true;
             invalidDest = true;
+
             //Search the list of cities to confirm input exists
+            p = list_first(cities);
             for (int i = 0; i < numberOfCities; i++) {
                 char *inspected_city = list_inspect(cities, p);
                 if (!strcmp(origin, inspected_city)){
@@ -281,8 +286,13 @@ int main(int argc, const char **argv)
             }else{
                 fprintf(stderr, "Invalid input. Try again\n");
             }
+        } else{
+            break;
         }
-    }while (strcmp(answer, "quit"));
+        free(origin);
+        free(dest);
+        free(answer);
+    }
     printf("Normal exit.\n");
 
     // Cleanup time
@@ -300,9 +310,8 @@ int main(int argc, const char **argv)
         free(list_inspect(edges, pos));
         pos = list_next(edges, pos);
     }
-    list_kill(edges);
 
-    
+    list_kill(edges);
     graph_kill(g);
     //Try to close input file
     if (fclose(in)){
