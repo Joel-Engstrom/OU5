@@ -179,7 +179,7 @@ graph *graph_insert_edge(graph *g, node *n1, node *n2){
  * NOTE: Undefined if the node is not in the graph.
  */
 graph *graph_delete_node(graph *g, node *n){
-    
+
 }
 
 /**

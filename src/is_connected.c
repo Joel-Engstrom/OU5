@@ -287,6 +287,7 @@ int main(int argc, const char **argv)
                 fprintf(stderr, "Invalid input. Try again\n");
             }
         } else{
+            free(answer);
             break;
         }
         free(origin);
