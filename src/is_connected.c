@@ -111,10 +111,11 @@ void read_file(FILE *in, list *l){
             continue;
         }
         int whereToCut = has_comment(line) - 1;
-        if (whereToCut == -1)
+        if (whereToCut <= -1)
         {
-            whereToCut = strlen(line);
+            whereToCut = strlen(line) - 2;
         }
+        printf("%d\n", whereToCut);
         char *city = substring(line, 1, whereToCut);
         list_insert(l, city, list_end(l));
     }
