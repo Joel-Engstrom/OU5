@@ -138,15 +138,8 @@ int unique_cities(list *cities, list *edges){
         // If the list is empty insert immediatly
         if(list_is_empty(cities)){
             list_insert(cities, city, list_end(cities));
-            char *inspected_value = list_inspect(cities, list_first(cities));
-            if (strcmp(inspected_value, city2))
-            {
-                list_insert(cities, city2, list_end(cities));
-                numCities++;
-            }
             numCities++;
-            P_edges = list_next(edges, P_edges);
-            continue;
+            duplicate = true;
         }
         // Check if City1 is a duplicate, if not insert it.
         while (P_cities != list_end(cities)){
@@ -176,7 +169,7 @@ int unique_cities(list *cities, list *edges){
         }
         P_cities = list_first(cities);
         if (!duplicate){
-            list_insert(cities, city, list_end(cities));
+            list_insert(cities, city2, list_end(cities));
             numCities++;
         }
         P_edges = list_next(edges, P_edges);
