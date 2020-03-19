@@ -174,6 +174,8 @@ void add_neighbours(list *l, graph *g){
             graph_insert_edge(g, startNode, destNode);
         }
         P_edges = list_next(l, P_edges);
+        free(col1);
+        free(col2);
     }
 }
 

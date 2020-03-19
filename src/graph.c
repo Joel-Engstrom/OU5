@@ -169,7 +169,7 @@ graph *graph_insert_edge(graph *g, node *n1, node *n2){
  * NOTE: Undefined if the node is not in the graph.
  */
 graph *graph_delete_node(graph *g, node *n){
-    
+
 }
 
 /**
@@ -219,8 +219,10 @@ void graph_kill(graph *g){
     for (int i = 0; i < g->size; i++)
     {
         node *inspected = array_1d_inspect_value(g->cities, i);
+        dlist_kill(inspected->neighbours);
         free(inspected);
     }
+    array_1d_kill(g->cities);
     free(g);
 }
 
