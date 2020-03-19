@@ -277,10 +277,9 @@ int main(int argc, const char **argv)
     // Insert neighbours into the graph
     add_neighbours(edges, g);
 
-    char input[10];
-    char *answer;
-    char *origin;
-    char *dest;
+
+    char origin[40];
+    char dest[40];
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
@@ -289,11 +288,9 @@ int main(int argc, const char **argv)
     while (1){
         printf("Enter origin and destination (quit to exit): ");
 
-        fgets(input, 10, stdin);
-        answer = substring(input, 1, 4);
-        if (strcmp(answer, "quit")){
-            origin = substring(input, 1, 3);
-            dest = substring(input, 5, 3);
+        scanf("%s", origin);
+        if (strcmp(origin, "quit")){
+            scanf("%s", dest);
             invalidOrigin = true;
             invalidDest = true;
 
@@ -324,12 +321,8 @@ int main(int argc, const char **argv)
                 fprintf(stderr, "Invalid input. Try again\n");
             }
         } else{
-            free(answer);
             break;
         }
-        free(origin);
-        free(dest);
-        free(answer);
     }
     printf("Normal exit.\n");
 
@@ -337,9 +330,11 @@ int main(int argc, const char **argv)
     list_pos pos = list_first(cities);
     while (pos != list_end(cities))
     {
+        printf("hej\n");
         free(list_inspect(cities, pos));
         pos = list_next(cities, pos);
     }
+
     list_kill(cities);
 
     pos = list_first(edges);
