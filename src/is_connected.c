@@ -359,7 +359,7 @@ int main(int argc, const char **argv)
             break;
         }
     }
-    printf("Normal exit.\n");
+    printf("Normal exit\n");
 
     // Cleanup time
     list_pos pos = list_first(cities);
