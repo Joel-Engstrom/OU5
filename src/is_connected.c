@@ -145,7 +145,6 @@ int unique_cities(list *cities, list *edges){
     list_pos P_edges = list_first(edges);
     list_pos P_cities = list_first(cities);
     int numCities = 0;
-
    
     // Read a line at a time from the input file until EOF
     while (P_edges != list_end(edges)) {
@@ -153,12 +152,10 @@ int unique_cities(list *cities, list *edges){
         int whereToCut = first_white_space(list_inspect(edges, P_edges));
         int length2 = strlen(list_inspect(edges, P_edges))-whereToCut;
         char *city = substring(list_inspect(edges, P_edges), 1, whereToCut);
-        char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, length2);
+        char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, 10); 
 
-        
         bool duplicate = false;
 
-        
         // If the list is empty insert immediatly
         if(list_is_empty(cities)){
             list_insert(cities, city, list_end(cities));
