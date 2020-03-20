@@ -222,7 +222,8 @@ void add_neighbours(list *l, graph *g){
     while (P_edges != list_end(l)) {
         int whereToCut = first_white_space(list_inspect(l, P_edges));
         char *col1 = substring(list_inspect(l, P_edges), 1, whereToCut);
-        char *col2 = substring(list_inspect(l, P_edges), whereToCut+2, 10);
+        char *col2 = substring(list_inspect(l, P_edges), whereToCut+2, strlen(list_inspect(l,P_edges)) - whereToCut);
+        //printf("Col1: %s | Col2: %s\n", col1, col2);
  
         node *startNode = graph_find_node(g, col1);
         node *destNode = graph_find_node(g, col2);
@@ -318,7 +319,7 @@ int main(int argc, const char **argv)
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
-    //graph_print(g);
+    graph_print(g);
     //Asks some user input
     while (1){
         printf("Enter origin and destination (quit to exit): ");
@@ -353,7 +354,7 @@ int main(int argc, const char **argv)
                 }
                 graph_reset_seen(g);
             }else{
-                fprintf(stderr, "Invalid input. Try again\n");
+                fprintf(stderr, "Invalid input. Try again\n\n");
             }
         } else{
             break;

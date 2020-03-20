@@ -240,13 +240,17 @@ void graph_print(const graph *g){
     {
         node *inspected_node = array_1d_inspect_value(g->cities, i);
         dlist_pos p = dlist_first(inspected_node->neighbours);
-        char *n;
+        /*printf("Node %d: %s | Grannar: ", inspected_node->index, inspected_node->name);
         while (!dlist_is_end(inspected_node->neighbours, p))
         {
-            n = dlist_inspect(inspected_node->neighbours, p);
-            
+            char *name = dlist_inspect(inspected_node->neighbours, p);
+            printf("%s", name);
+            p = dlist_next(inspected_node->neighbours, p);
+            if (!dlist_is_end(inspected_node->neighbours, p)) {
+			    printf(", ");
+		    }
         }
-        //printf("Node %d: %s | Grannar: %s\n", inspected_node->index, inspected_node->name, n);
+        printf("\n");*/
     }
     
 }
