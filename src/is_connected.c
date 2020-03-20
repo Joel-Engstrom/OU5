@@ -151,8 +151,9 @@ int unique_cities(list *cities, list *edges){
     while (P_edges != list_end(edges)) {
         
         int whereToCut = first_white_space(list_inspect(edges, P_edges));
+        int length2 = strlen(list_inspect(edges, P_edges))-whereToCut;
         char *city = substring(list_inspect(edges, P_edges), 1, whereToCut);
-        char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, 10);
+        char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, length2);
 
         
         bool duplicate = false;
@@ -169,6 +170,7 @@ int unique_cities(list *cities, list *edges){
             char *inspected_value = list_inspect(cities, P_cities);
 
             if(!strcmp(city, inspected_value)){
+                free(city);
                 duplicate = true;
             }
             P_cities = list_next(cities, P_cities);
@@ -186,6 +188,7 @@ int unique_cities(list *cities, list *edges){
             char *inspected_value = list_inspect(cities, P_cities);
 
             if(!strcmp(city2, inspected_value)){
+                free(city2);
                 duplicate = true;
             }
             P_cities = list_next(cities, P_cities);
@@ -221,6 +224,7 @@ void add_neighbours(list *l, graph *g){
     // Gets the full column of cities
     while (P_edges != list_end(l)) {
         int whereToCut = first_white_space(list_inspect(l, P_edges));
+        int length2 = strlen(list_inspect(l, P_edges))-whereToCut;
         char *col1 = substring(list_inspect(l, P_edges), 1, whereToCut);
         char *col2 = substring(list_inspect(l, P_edges), whereToCut+2, strlen(list_inspect(l,P_edges)) - whereToCut);
         //printf("Col1: %s | Col2: %s\n", col1, col2);
