@@ -246,7 +246,7 @@ void graph_print(const graph *g){
             n = dlist_inspect(inspected_node->neighbours, p);
             
         }
-        printf("Node %d: %s | Grannar: %s\n", inspected_node->index, inspected_node->name, n);
+        //printf("Node %d: %s | Grannar: %s\n", inspected_node->index, inspected_node->name, n);
     }
     
 }

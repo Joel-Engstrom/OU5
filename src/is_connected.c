@@ -151,11 +151,9 @@ int unique_cities(list *cities, list *edges){
     while (P_edges != list_end(edges)) {
         
         int whereToCut = first_white_space(list_inspect(edges, P_edges));
-        printf("Cutta vid: %d\n", whereToCut);
         char *city = substring(list_inspect(edges, P_edges), 1, whereToCut);
         char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, 10);
-        printf("City1: %s\n", city);
-        printf("City2: %s\n\n", city2);
+
         
         bool duplicate = false;
 
@@ -234,6 +232,8 @@ void add_neighbours(list *l, graph *g){
             graph_insert_edge(g, startNode, destNode);
         }
         P_edges = list_next(l, P_edges);
+        free(col1);
+        free(col2);
     }
 }
 
@@ -301,13 +301,13 @@ int main(int argc, const char **argv)
     int numberOfCities = unique_cities(cities, edges);
 
     
-
+    
     // Create a graph based on the amount of unique cities
     graph *g = graph_empty(numberOfCities);
 
     // Add nodes to all nodes
     add_nodes(cities, g);
-
+    
     
     // Insert neighbours into the graph
     add_neighbours(edges, g);
@@ -318,7 +318,7 @@ int main(int argc, const char **argv)
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
-    graph_print(g);
+    //graph_print(g);
     //Asks some user input
     while (1){
         printf("Enter origin and destination (quit to exit): ");
@@ -362,11 +362,9 @@ int main(int argc, const char **argv)
     printf("Normal exit.\n");
 
     // Cleanup time
-    /*
     list_pos pos = list_first(cities);
     while (pos != list_end(cities))
     {
-        printf("hej\n");
         free(list_inspect(cities, pos));
         pos = list_next(cities, pos);
     }
@@ -382,7 +380,7 @@ int main(int argc, const char **argv)
 
     list_kill(edges);
     graph_kill(g);
-    //Try to close input file*/
+    //Try to close input file
     if (fclose(in)){
         fprintf(stderr, "Failed to close %s: %s", map, strerror(errno));
         return -1;
