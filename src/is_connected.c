@@ -113,9 +113,9 @@ void read_file(FILE *in, list *l){
         int whereToCut = has_comment(line) - 1;
         if (whereToCut <= -1)
         {
-            whereToCut = strlen(line) - 2;
+            whereToCut = strlen(line) - 1;
         }
-        printf("%d\n", whereToCut);
+        //printf("%d\n", whereToCut);
         char *city = substring(line, 1, whereToCut);
         list_insert(l, city, list_end(l));
     }
@@ -130,11 +130,17 @@ int unique_cities(list *cities, list *edges){
     list_pos P_cities = list_first(cities);
     int numCities = 0;
 
+   
     // Read a line at a time from the input file until EOF
     while (P_edges != list_end(edges)) {
+        printf("Rad innan: %s\n", list_inspect(edges, P_edges));
         char *city = strtok(list_inspect(edges, P_edges), " ");
+        printf("Rad efter: %s\n", list_inspect(edges, P_edges));
         char *city2 = strtok(NULL, " ");
         bool duplicate = false;
+
+        
+
 
         // If the list is empty insert immediatly
         if(list_is_empty(cities)){
@@ -175,6 +181,7 @@ int unique_cities(list *cities, list *edges){
         }
         P_edges = list_next(edges, P_edges);
     }
+    
     return numCities;
 }
 
@@ -194,12 +201,20 @@ void add_nodes(list *cities, graph *g){
  */
 void add_neighbours(list *l, graph *g){
     list_pos P_edges = list_first(l);
+    while (P_edges != list_end(l)) {
+        printf("%s\n", list_inspect(l, P_edges));
+        P_edges = list_next(l, P_edges);
+    }
+    P_edges = list_first(l);
     
     // Gets the full column of cities
     while (P_edges != list_end(l)) {
-        char *col1 = substring(list_inspect(l, P_edges), 1, 3);
+        printf("%s\n", list_inspect(l, P_edges));
+        char *col1 = strtok(list_inspect(l, P_edges), " ");
+        char *col2 = strtok(NULL, " ");
+        printf("%s %s\n", col1, col2);
+ 
         node *startNode = graph_find_node(g, col1);
-        char *col2 = substring(list_inspect(l, P_edges), 5, 3);
         node *destNode = graph_find_node(g, col2);
         
         if (startNode != NULL && destNode != NULL)
@@ -207,8 +222,6 @@ void add_neighbours(list *l, graph *g){
             graph_insert_edge(g, startNode, destNode);
         }
         P_edges = list_next(l, P_edges);
-        free(col1);
-        free(col2);
     }
 }
 
@@ -264,10 +277,18 @@ int main(int argc, const char **argv)
     // Create lists ..
     list *edges = list_empty(NULL);
     read_file(in, edges);
+    list_pos P_edges = list_first(edges);
+   
+
     
+    // Gets the full column of cities
+
+
     // Gets the amount of unique cities
     list *cities = list_empty(NULL);
     int numberOfCities = unique_cities(cities, edges);
+
+    
 
     // Create a graph based on the amount of unique cities
     graph *g = graph_empty(numberOfCities);
@@ -275,6 +296,7 @@ int main(int argc, const char **argv)
     // Add nodes to all nodes
     add_nodes(cities, g);
 
+    
     // Insert neighbours into the graph
     add_neighbours(edges, g);
 
@@ -328,6 +350,7 @@ int main(int argc, const char **argv)
     printf("Normal exit.\n");
 
     // Cleanup time
+    /*
     list_pos pos = list_first(cities);
     while (pos != list_end(cities))
     {
@@ -347,7 +370,7 @@ int main(int argc, const char **argv)
 
     list_kill(edges);
     graph_kill(g);
-    //Try to close input file
+    //Try to close input file*/
     if (fclose(in)){
         fprintf(stderr, "Failed to close %s: %s", map, strerror(errno));
         return -1;
