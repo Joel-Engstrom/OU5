@@ -240,13 +240,8 @@ void graph_print(const graph *g){
     {
         node *inspected_node = array_1d_inspect_value(g->cities, i);
         dlist_pos p = dlist_first(inspected_node->neighbours);
-        char *n;
-        while (!dlist_is_end(inspected_node->neighbours, p))
-        {
-            n = dlist_inspect(inspected_node->neighbours, p);
-            
-        }
-        //printf("Node %d: %s | Grannar: %s\n", inspected_node->index, inspected_node->name, n);
+        printf("Node %d: %s\n", inspected_node->index, inspected_node->name);
+
     }
     
 }
