@@ -226,7 +226,7 @@ void add_neighbours(list *l, graph *g){
         int whereToCut = first_white_space(list_inspect(l, P_edges));
         int length2 = strlen(list_inspect(l, P_edges))-whereToCut;
         char *col1 = substring(list_inspect(l, P_edges), 1, whereToCut);
-        char *col2 = substring(list_inspect(l, P_edges), whereToCut+2, strlen(list_inspect(l,P_edges)) - whereToCut);
+        char *col2 = substring(list_inspect(l, P_edges), whereToCut+2, length2);
         //printf("Col1: %s | Col2: %s\n", col1, col2);
  
         node *startNode = graph_find_node(g, col1);
