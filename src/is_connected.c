@@ -26,6 +26,22 @@ int first_non_white_space(const char *s)
     }
 }
 
+int first_white_space(const char *s){
+    int i = 0;
+
+    while (s[i] && !isspace(s[i]))
+    {
+        i++;
+    }
+    if (s[i])
+    {
+        return i;
+    } else
+    {
+        return -1;
+    }
+}
+
 /* Return position of last non-whitespace character or -1 if only
    white-space is found. */
 int last_non_white_space(const char *s)
@@ -133,15 +149,17 @@ int unique_cities(list *cities, list *edges){
    
     // Read a line at a time from the input file until EOF
     while (P_edges != list_end(edges)) {
-        printf("Rad innan: %s\n", list_inspect(edges, P_edges));
-        char *city = strtok(list_inspect(edges, P_edges), " ");
-        printf("Rad efter: %s\n", list_inspect(edges, P_edges));
-        char *city2 = strtok(NULL, " ");
+        
+        int whereToCut = first_white_space(list_inspect(edges, P_edges));
+        printf("Cutta vid: %d\n", whereToCut);
+        char *city = substring(list_inspect(edges, P_edges), 1, whereToCut);
+        char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, 10);
+        printf("City1: %s\n", city);
+        printf("City2: %s\n\n", city2);
+        
         bool duplicate = false;
 
         
-
-
         // If the list is empty insert immediatly
         if(list_is_empty(cities)){
             list_insert(cities, city, list_end(cities));
@@ -201,18 +219,12 @@ void add_nodes(list *cities, graph *g){
  */
 void add_neighbours(list *l, graph *g){
     list_pos P_edges = list_first(l);
-    while (P_edges != list_end(l)) {
-        printf("%s\n", list_inspect(l, P_edges));
-        P_edges = list_next(l, P_edges);
-    }
-    P_edges = list_first(l);
     
     // Gets the full column of cities
     while (P_edges != list_end(l)) {
-        printf("%s\n", list_inspect(l, P_edges));
-        char *col1 = strtok(list_inspect(l, P_edges), " ");
-        char *col2 = strtok(NULL, " ");
-        printf("%s %s\n", col1, col2);
+        int whereToCut = first_white_space(list_inspect(l, P_edges));
+        char *col1 = substring(list_inspect(l, P_edges), 1, whereToCut);
+        char *col2 = substring(list_inspect(l, P_edges), whereToCut+2, 10);
  
         node *startNode = graph_find_node(g, col1);
         node *destNode = graph_find_node(g, col2);
