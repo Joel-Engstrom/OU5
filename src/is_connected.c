@@ -113,19 +113,20 @@ char *substring(const char *original, int start, int length)
 {
     char *city;
     int position = start, c=0;
-    // 4 eftersom \0 också behövs på slutet
+    // Allocate memory depending on the length, plus one for '\0'
     city = malloc(sizeof(char) * length+1);
-    // Kontrollera så att det finns minne
+    // Check if the allocation was successful
     if (city == NULL)
     {
         printf("Unable to allocate memory.\n");
         exit(EXIT_FAILURE);
     }
-    // Körs 3 gånger för att ta dem tre första bokstäverna
+    // Copies letter for letter to the new string
     while (c < length) {
         city[c] = original[position+c-1];
         c++;
     }
+    // Add end of string character to the end
     city[c] = '\0';
     return city;
 }
@@ -145,15 +146,17 @@ void read_file(FILE *in, list *l){
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
         if (line_is_blank(line) || line_is_comment(line) || line_is_integer(line)) {
-            // Ignore blank lines and comment lines.
+            // Ignore blank lines, comment lines and integer lines.
             continue;
         }
+        // Check for a '#' in the line
         int whereToCut = has_comment(line) - 1;
+        // If no '#' was found, use the length of the line instead
         if (whereToCut <= -1)
         {
             whereToCut = strlen(line) - 1;
         }
-
+        // Substring away excess information
         char *city = substring(line, 1, whereToCut);
         list_insert(l, city, list_end(l));
     }
@@ -174,12 +177,12 @@ int unique_cities(list *cities, list *edges){
     list_pos P_cities = list_first(cities);
     int numCities = 0;
    
-    // Read a line at a time from the input file until EOF
+    // Goes through the full list of edges
     while (P_edges != list_end(edges)) {
-        
+        // Checks where to cut for the second substring call
         int whereToCut = first_white_space(list_inspect(edges, P_edges));
         int length2 = strlen(list_inspect(edges, P_edges))-whereToCut;
-        printf("%d\n", whereToCut);
+        // Substrings into two different strings
         char *city = substring(list_inspect(edges, P_edges), 1, whereToCut);
         char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, length2);
 
@@ -187,6 +190,7 @@ int unique_cities(list *cities, list *edges){
 
         // If the list is empty insert immediatly
         if(list_is_empty(cities)){
+            // Check if city and city2 are the same, then free city2
             if (!strcmp(city, city2))
             {
                 list_insert(cities, city, list_end(cities));
@@ -194,7 +198,8 @@ int unique_cities(list *cities, list *edges){
                 numCities++;
                 P_edges = list_next(edges, P_edges);
                 continue;
-            }else
+            } 
+            else // If they aren't the same, insert them both
             {
                 list_insert(cities, city, list_end(cities));
                 numCities++;
@@ -204,37 +209,41 @@ int unique_cities(list *cities, list *edges){
                 continue;
             }  
         }
-        // Check if City1 is a duplicate, if not insert it.
+        // Check if City1 is a duplicate, if not insert it
         while (P_cities != list_end(cities)){
             char *inspected_value = list_inspect(cities, P_cities);
-
+            // Check if the two are the same
             if(!strcmp(city, inspected_value)){
                 free(city);
                 duplicate = true;
+                // Break out of the loops since a duplicate was found
                 break;
             }
             P_cities = list_next(cities, P_cities);
         }
         P_cities = list_first(cities);
+        // If they weren't the same, insert it into the list
         if (!duplicate){
             list_insert(cities, city, list_end(cities));
             numCities++;
         }
         
-        // Check if city2 is a duplicate, if not insert it.
+        // Check if city2 is a duplicate, if not insert it
         duplicate = false;
         while (P_cities != list_end(cities))
         {
             char *inspected_value = list_inspect(cities, P_cities);
-
+            // Check if the two are the same
             if(!strcmp(city2, inspected_value)){
                 free(city2);
                 duplicate = true;
+                // Break out of the loops since a duplicate was found
                 break;
             }
             P_cities = list_next(cities, P_cities);
         }
         P_cities = list_first(cities);
+        // If they weren't the same, insert it into the list
         if (!duplicate){
             list_insert(cities, city2, list_end(cities));
             numCities++;
@@ -256,6 +265,7 @@ int unique_cities(list *cities, list *edges){
 void add_nodes(list *cities, graph *g){
     list_pos q = list_first(cities);
     while (q != list_end(cities)){
+        // Inserts the node into the graph
         graph_insert_node(g, (char*)list_inspect(cities, q));
         q = list_next(cities, q);
     }
@@ -273,17 +283,17 @@ void add_nodes(list *cities, graph *g){
 void add_neighbours(list *l, graph *g){
     list_pos P_edges = list_first(l);
     
-    // Gets the full column of cities
     while (P_edges != list_end(l)) {
+        // Checks where to substring depending on the length of the first name
         int whereToCut = first_white_space(list_inspect(l, P_edges));
         int length2 = strlen(list_inspect(l, P_edges))-whereToCut;
+        // Gets the two cities and seperates them into two strings
         char *col1 = substring(list_inspect(l, P_edges), 1, whereToCut);
         char *col2 = substring(list_inspect(l, P_edges), whereToCut+2, length2);
-        //printf("Col1: %s | Col2: %s\n", col1, col2);
- 
+        // Finds the correct nodes in the graph
         node *startNode = graph_find_node(g, col1);
         node *destNode = graph_find_node(g, col2);
-        
+        // If the two correct nodes are found, add them as neighbours
         if (startNode != NULL && destNode != NULL)
         {
             graph_insert_edge(g, startNode, destNode);
