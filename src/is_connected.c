@@ -159,9 +159,22 @@ int unique_cities(list *cities, list *edges){
 
         // If the list is empty insert immediatly
         if(list_is_empty(cities)){
-            list_insert(cities, city, list_end(cities));
-            numCities++;
-            duplicate = true;
+            if (!strcmp(city, city2))
+            {
+                list_insert(cities, city, list_end(cities));
+                free(city2);
+                numCities++;
+                P_edges = list_next(edges, P_edges);
+                continue;
+            }else
+            {
+                list_insert(cities, city, list_end(cities));
+                numCities++;
+                list_insert(cities, city2, list_end(cities));
+                numCities++;
+                P_edges = list_next(edges, P_edges);
+                continue;
+            }  
         }
         // Check if City1 is a duplicate, if not insert it.
         while (P_cities != list_end(cities)){
@@ -197,8 +210,7 @@ int unique_cities(list *cities, list *edges){
             numCities++;
         }
         P_edges = list_next(edges, P_edges);
-    }
-    
+    } 
     return numCities;
 }
 
