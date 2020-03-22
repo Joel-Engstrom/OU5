@@ -25,7 +25,15 @@ int first_non_white_space(const char *s)
         return -1; // Return fail.
     }
 }
-
+/**
+ * first_white_space() - Reads a string and checks for the first white-space.
+ * @s: A string to be searched.
+ *
+ * Gets a string and returns the position of the first white-space in the string.
+ * If no white-space is found, -1 is returned.
+ *
+ * Returns: The position of the white-space in the string.
+ */
 int first_white_space(const char *s){
     int i = 0;
 
@@ -91,9 +99,15 @@ bool line_is_integer(const char *s)
     char digit = *s;
     return isdigit(digit);
 }
-/*
- * Read a part of a string, original from integer start with length of integer length
- * Return a substring of original
+/**
+ * substring() - Gets only a part of a string.
+ * @original: A string to be substringed.
+ * @start: The position to begin substringing from.
+ * @length: How long from the start position to cut.
+ *
+ * Gets a string and returns only a specific part of it.
+ *
+ * Returns: A specific part of the original string.
  */
 char *substring(const char *original, int start, int length)
 {
@@ -115,7 +129,15 @@ char *substring(const char *original, int start, int length)
     city[c] = '\0';
     return city;
 }
-
+/**
+ * read_file() - Reads a file from the hard drive.
+ * @in: A FILE reference.
+ * @l: A list to insert each row into.
+ *
+ * Ignores empty lines, lines beginning with a '#' and numbers.
+ *
+ * Returns: Nothing but updates the list l.
+ */
 void read_file(FILE *in, list *l){
     char line[BUFSIZE];
     int numCities = 0;
@@ -137,9 +159,15 @@ void read_file(FILE *in, list *l){
     }
 }
 
-/*
- * Counts the number of unique cities from a file
- * Returns an integer of number of cities
+/**
+ * unique_cities() - Gets the amount of unique cities from a list.
+ * @cities: A list of the seperated cities.
+ * @edges: A list of unformated cities.
+ *
+ * Formats the list edges and updates the list cities with this new information.
+ * Formating means separating and removing duplicates.
+ *
+ * Returns: An integer with the number of unique cities.
  */
 int unique_cities(list *cities, list *edges){
     list_pos P_edges = list_first(edges);
@@ -216,8 +244,14 @@ int unique_cities(list *cities, list *edges){
     return numCities;
 }
 
-/*
- * Inserts nodes representing cities in to a graph
+/**
+ * add_nodes() - Adds all nodes into a graph.
+ * @cities: A list of cities.
+ * @g: Graph to add the nodes to.
+ *
+ * Updates the graph g with the new nodes added to it.
+ *
+ * Returns: Nothing but updates the graph.
  */
 void add_nodes(list *cities, graph *g){
     list_pos q = list_first(cities);
@@ -227,8 +261,14 @@ void add_nodes(list *cities, graph *g){
     }
 }
 
-/*
- * Add the neighbouring cities to each node
+/**
+ * add_neighbours() - Adds neighbouring cities to all nodes.
+ * @l: A list of cities.
+ * @g: Graph to inspect.
+ *
+ * Updates all nodes with their respective neighbours.
+ *
+ * Returns: Nothing but updates the graph.
  */
 void add_neighbours(list *l, graph *g){
     list_pos P_edges = list_first(l);
@@ -253,9 +293,16 @@ void add_neighbours(list *l, graph *g){
         free(col2);
     }
 }
-
-
-
+/**
+ * find_path() - Check for a path between two nodes.
+ * @n1: First node.
+ * @n2: Second node.
+ * @g: Graph to inspect.
+ *
+ * Returns a bool if there is a path between n1 & n2.
+ *
+ * Returns: True if a path exists between the two nodes.
+ */
 bool find_path(node *n1, node *n2, graph *g){
     queue *q = queue_empty(NULL);
     graph_node_set_seen(g, n1, true);
@@ -307,18 +354,11 @@ int main(int argc, const char **argv)
     list *edges = list_empty(NULL);
     read_file(in, edges);
     list_pos P_edges = list_first(edges);
-   
-
-    
-    // Gets the full column of cities
-
 
     // Gets the amount of unique cities
     list *cities = list_empty(NULL);
     int numberOfCities = unique_cities(cities, edges);
 
-    
-    
     // Create a graph based on the amount of unique cities
     graph *g = graph_empty(numberOfCities);
 
@@ -329,7 +369,7 @@ int main(int argc, const char **argv)
     // Insert neighbours into the graph
     add_neighbours(edges, g);
 
-
+    // Create required elements
     char origin[40];
     char dest[40];
     list_pos p;
@@ -339,8 +379,9 @@ int main(int argc, const char **argv)
     //Asks some user input
     while (1){
         printf("Enter origin and destination (quit to exit): ");
-
+        // Get origin and destination information from the user
         scanf("%s", origin);
+        // If the user typed "quit", exit the program
         if (strcmp(origin, "quit")){
             scanf("%s", dest);
             invalidOrigin = true;
@@ -359,7 +400,7 @@ int main(int argc, const char **argv)
                 p = list_next(cities, p);
             }
             if (!invalidOrigin && !invalidDest){
-                //Kör sökning
+                // Check if there is a path between the two choosen cities
                 bool hasPath = find_path(graph_find_node(g, origin), graph_find_node(g, dest), g);
                 if (hasPath)
                 {
@@ -368,6 +409,7 @@ int main(int argc, const char **argv)
                 {
                     printf("There is no path from %s to %s.\n\n", origin, dest);
                 }
+                // Reset all nodes seen status to false
                 graph_reset_seen(g);
             }else{
                 fprintf(stderr, "Invalid input. Try again\n\n");
@@ -385,17 +427,17 @@ int main(int argc, const char **argv)
         free(list_inspect(cities, pos));
         pos = list_next(cities, pos);
     }
-
     list_kill(cities);
-
+    
     pos = list_first(edges);
     while (pos != list_end(edges))
     {
         free(list_inspect(edges, pos));
         pos = list_next(edges, pos);
     }
-
     list_kill(edges);
+
+
     graph_kill(g);
     //Try to close input file
     if (fclose(in)){
