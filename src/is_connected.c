@@ -10,6 +10,19 @@
 #include "queue.h"
 #define BUFSIZE 300
 
+/*
+ * Program that reads a file representing a map and creates a directed graph
+ * from the file. Ask the user for some input of two cities/nodes and
+ * determines if there is a path between these two cities/nodes.
+ * Exits the program when the user types "quit".
+ *
+ * Authors: Edvin Hedin (c19ehn@cs.umu.se)
+ *          Joel Engström  (c19jem@cs.umu.se)
+ *
+ * Version information:
+ *   2020-03-22: v1.0, first public version.
+ */
+
 /* Return position of first non-whitespace character or -1 if only
    white-space is found. */
 int first_non_white_space(const char *s)
@@ -304,7 +317,8 @@ void add_neighbours(list *l, graph *g){
     }
 }
 /**
- * find_path() - Check for a path between two nodes.
+ * find_path() - Check for a path between two nodes
+ *               using width-first-method.
  * @n1: First node.
  * @n2: Second node.
  * @g: Graph to inspect.
@@ -315,25 +329,32 @@ void add_neighbours(list *l, graph *g){
  */
 bool find_path(node *n1, node *n2, graph *g){
     queue *q = queue_empty(NULL);
+    //Mark origin node as seen
     graph_node_set_seen(g, n1, true);
+    //Add origin node to queue
     queue_enqueue(q, n1);
     while (!queue_is_empty(q))
     {
         node *p = queue_front(q);
         q = queue_dequeue(q);
+        //Retrive current node's neighbours
         dlist *neighbours = graph_neighbours(g, p);
         dlist_pos pos = dlist_first(neighbours);
+        //Inspect all neighbours
         while (!dlist_is_end(neighbours, pos))
         {
+            //Mark the neighbours as seen if not already
             if (!graph_node_is_seen(g, dlist_inspect(neighbours, pos)))
             {
                 graph_node_set_seen(g, dlist_inspect(neighbours, pos), true);
+                //Add current node's neighbours to queue
                 queue_enqueue(q, dlist_inspect(neighbours, pos));
             }
             pos = dlist_next(neighbours, pos);
         }
     }
     queue_kill(q);
+    //Return true if the destination node was seen
     if (graph_node_is_seen(g, n2))
     {
         return true;
