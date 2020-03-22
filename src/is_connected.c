@@ -131,7 +131,7 @@ void read_file(FILE *in, list *l){
         {
             whereToCut = strlen(line) - 1;
         }
-        //printf("%d\n", whereToCut);
+
         char *city = substring(line, 1, whereToCut);
         list_insert(l, city, list_end(l));
     }
@@ -151,8 +151,9 @@ int unique_cities(list *cities, list *edges){
         
         int whereToCut = first_white_space(list_inspect(edges, P_edges));
         int length2 = strlen(list_inspect(edges, P_edges))-whereToCut;
+        printf("%d\n", whereToCut);
         char *city = substring(list_inspect(edges, P_edges), 1, whereToCut);
-        char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, 10); 
+        char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, length2);
 
         bool duplicate = false;
 
