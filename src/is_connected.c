@@ -194,11 +194,19 @@ int unique_cities(list *cities, list *edges){
     while (P_edges != list_end(edges)) {
         // Checks where to cut for the second substring call
         int whereToCut = first_white_space(list_inspect(edges, P_edges));
-        int length2 = strlen(list_inspect(edges, P_edges))-whereToCut;
+        int length2 = strlen(list_inspect(edges, P_edges))-whereToCut-1;
         // Substrings into two different strings
         char *city = substring(list_inspect(edges, P_edges), 1, whereToCut);
         char *city2 = substring(list_inspect(edges, P_edges), whereToCut+2, length2);
-
+        printf("length2: %d | whereToCut: %d\n", length2, whereToCut);
+        printf("city1: %s | city2: %s\n", city, city2);
+        printf("Är lika: %s\n", !strcmp(city,city2) ? "true" : "false");
+        if (!strcmp(city, "") || !strcmp(city2, ""))
+        {
+            fprintf(stderr, "ERROR: Bad file format!\n");
+            exit(EXIT_FAILURE);
+        }
+        
         bool duplicate = false;
 
         // If the list is empty insert immediatly
@@ -206,6 +214,7 @@ int unique_cities(list *cities, list *edges){
             // Check if city and city2 are the same, then free city2
             if (!strcmp(city, city2))
             {
+                printf("Hej Hej\n");
                 list_insert(cities, city, list_end(cities));
                 free(city2);
                 numCities++;
@@ -222,6 +231,7 @@ int unique_cities(list *cities, list *edges){
                 continue;
             }  
         }
+        P_cities = list_first(cities);
         // Check if City1 is a duplicate, if not insert it
         while (P_cities != list_end(cities)){
             char *inspected_value = list_inspect(cities, P_cities);
@@ -406,7 +416,9 @@ int main(int argc, const char **argv)
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
-    //graph_print(g);
+    graph_print(g);
+    printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
+    printf("Graph has edges: %s\n", graph_has_edges(g) ? "true" : "false");
     //Asks some user input
     while (1){
         printf("Enter origin and destination (quit to exit): ");
