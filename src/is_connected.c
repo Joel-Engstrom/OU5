@@ -183,6 +183,7 @@ int unique_cities(list *cities, list *edges){
             if(!strcmp(city, inspected_value)){
                 free(city);
                 duplicate = true;
+                break;
             }
             P_cities = list_next(cities, P_cities);
         }
@@ -201,6 +202,7 @@ int unique_cities(list *cities, list *edges){
             if(!strcmp(city2, inspected_value)){
                 free(city2);
                 duplicate = true;
+                break;
             }
             P_cities = list_next(cities, P_cities);
         }
