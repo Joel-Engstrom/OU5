@@ -406,7 +406,7 @@ int main(int argc, const char **argv)
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
-    graph_print(g);
+    //graph_print(g);
     //Asks some user input
     while (1){
         printf("Enter origin and destination (quit to exit): ");
