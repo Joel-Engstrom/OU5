@@ -171,7 +171,13 @@ graph *graph_insert_edge(graph *g, node *n1, node *n2){
 dlist *graph_neighbours(const graph *g,const node *n){
     dlist *temp = dlist_empty(NULL);
     node *inspected = array_1d_inspect_value(g->cities, n->index);
-    temp = inspected->neighbours;
+    dlist_pos pos = dlist_first(inspected->neighbours);
+
+    while (!dlist_is_end(inspected->neighbours, pos)){
+        char *neighbour = dlist_inspect(inspected->neighbours, pos);
+        dlist_insert(temp, neighbour, dlist_first(temp));
+        pos = dlist_next(inspected->neighbours, pos);
+    }
     return temp;
 }
 
