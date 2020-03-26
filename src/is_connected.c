@@ -154,7 +154,6 @@ char *substring(const char *original, int start, int length)
  */
 void read_file(FILE *in, list *l){
     char line[BUFSIZE];
-    int numCities = 0;
 
     // Read a line at a time from the input file until EOF
     while (fgets(line, BUFSIZE, in) != NULL) {
@@ -358,6 +357,7 @@ bool find_path(node *n1, node *n2, graph *g){
             }
             pos = dlist_next(neighbours, pos);
         }
+        dlist_kill(neighbours);
     }
     queue_kill(q);
     //Return true if the destination node was seen
@@ -373,7 +373,6 @@ int main(int argc, const char **argv)
 {
     FILE *in;
     const char *map;
-    char line[BUFSIZE];
     //Verify number of parameters
     if (argc <= 1){
         fprintf(stderr, "Usage: ./isConnected airmap1.map\n");
@@ -390,7 +389,6 @@ int main(int argc, const char **argv)
     // Create lists ..
     list *edges = list_empty(NULL);
     read_file(in, edges);
-    list_pos P_edges = list_first(edges);
 
     // Gets the amount of unique cities
     list *cities = list_empty(NULL);
@@ -412,9 +410,6 @@ int main(int argc, const char **argv)
     list_pos p;
     bool invalidOrigin;
     bool invalidDest;
-    graph_print(g);
-    printf("Graph is empty: %s\n", graph_is_empty(g) ? "true" : "false");
-    printf("Graph has edges: %s\n", graph_has_edges(g) ? "true" : "false");
     //Asks some user input
     while (1){
         printf("Enter origin and destination (quit to exit): ");
